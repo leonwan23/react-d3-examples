@@ -1,12 +1,18 @@
 import React from "react";
 import "./App.css";
+import moment from "moment";
 
 import Category from "./visualizations/Category";
+import Day from "./visualizations/Day";
 
-const width = 1280;
+const width = 750;
 const height = 1800;
 
 const ENTER_CODE = 13;
+
+const style = {
+  width
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -23,22 +29,11 @@ class App extends React.Component {
         }
       ],
       categoryBeingAdded: null,
-      inputPosition: { x: 0, y: 0 }
+      selectedDate: new Date() //current day
     };
   }
 
-  componentDidMount() {
-    this.updateInputPosition();
-
-    window.addEventListener("resize", this.updateInputPosition);
-  }
-
-  updateInputPosition = () => {
-    const { x, y } = document
-      .getElementById("category-input")
-      .getBoundingClientRect();
-    this.setState({ inputPosition: { x, y } });
-  };
+  componentDidMount() {}
 
   startCategory = event => {
     const categoryBeingAdded = {
@@ -74,15 +69,23 @@ class App extends React.Component {
     }
   };
 
-  deleteCategory = (category) => {
+  deleteCategory = category => {};
 
-  }
+  selectMonth = (prev = true) => {
+    const { selectedDate } = this.state;
+    const monthDiff = prev ? -1 : 1;
+    this.setState({
+      selectedDate: moment(selectedDate)
+        .add(monthDiff, "months")
+        .toDate()
+    });
+  };
 
   render() {
-    const { categories, categoryBeingAdded, inputPosition } = this.state;
+    const { categories, categoryBeingAdded, selectedDate } = this.state;
 
     return (
-      <div className="App">
+      <div className="App" style={style}>
         <input
           id="category-input"
           className="category-input"
@@ -91,19 +94,33 @@ class App extends React.Component {
           onBlur={this.clearCategory}
           onKeyDown={this.addCategory}
         ></input>
+        <h3 className="month-label">
+          <span style={{ cursor: "pointer" }} onClick={this.selectMonth}>
+            ←{" "}
+          </span>
+          {moment(selectedDate).format("MMM YYYY")}
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => this.selectMonth(false)}
+          >
+            {" "}
+            →
+          </span>
+        </h3>
         <svg
           className="svg-container"
           width={width}
           height={height}
           viewBox={`0 0 ${width} ${height}`}
         >
-          <Category
+          {/* <Category
             data={categories}
             width={width}
             height={height}
             categoryBeingAdded={categoryBeingAdded}
-            inputPosition={inputPosition}
-          />
+          /> */}
+
+          <Day width={width} selectedDate={selectedDate} />
         </svg>
       </div>
     );

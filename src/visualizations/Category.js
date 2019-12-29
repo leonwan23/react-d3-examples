@@ -62,18 +62,12 @@ export default class Bubble extends Component {
   }
 
   calculateData = () => {
-    const {
-      data,
-      categoryBeingAdded,
-      width,
-      height,
-      inputPosition
-    } = this.props;
+    const { data, categoryBeingAdded, width, height } = this.props;
     this.data = data.slice();
     this.data.map(d => {
       return Object.assign(d, {
         focusX: width / 2,
-        focusY: height / 6,
+        focusY: height / 8,
         radius
       });
     });
@@ -81,7 +75,7 @@ export default class Bubble extends Component {
     if (categoryBeingAdded) {
       this.data.push(
         Object.assign(categoryBeingAdded, {
-          fx: inputPosition.x - 20,
+          fx: width / 2,
           fy: -5,
           radius
         })
@@ -121,12 +115,18 @@ export default class Bubble extends Component {
   };
 
   dragStart = () => {
-    simulation.alphaTarget(0.3).restart();
+    simulation.alphaTarget(0.9).restart();
+    d3.event.subject.x = d3.event.subject.x;
+    d3.event.subject.y = d3.event.subject.y;
+
     d3.event.subject.fx = d3.event.subject.x;
     d3.event.subject.fy = d3.event.subject.y;
   };
 
   onDrag = () => {
+    d3.event.subject.x = d3.event.x;
+    d3.event.subject.y = d3.event.y;
+
     d3.event.subject.fx = d3.event.x;
     d3.event.subject.fy = d3.event.y;
   };

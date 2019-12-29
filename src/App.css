@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  margin: auto;
 }
 
 .category-input {
@@ -24,4 +24,8 @@
 
 .svg-container {
   overflow: visible;
+}
+
+.month-label{
+  text-align: center;
 }
