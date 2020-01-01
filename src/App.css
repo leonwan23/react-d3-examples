@@ -2,13 +2,20 @@
   margin: auto;
 }
 
+p {
+  margin: 0;
+}
+
+.expense-form {
+  text-align: center;
+}
+
 .category-input {
-  position: absolute;
   top: 0;
-  font-size: 14;
+  font-size: 14px;
   text-align: center;
   display: block;
-  padding: 5;
+  padding: 5px;
   width: 200px;
   margin: 50px auto 0;
   background: none;
@@ -24,8 +31,25 @@
 
 .svg-container {
   overflow: visible;
+  z-index: -1;
 }
 
-.month-label{
+.month-label {
   text-align: center;
+  /* margin: 50px auto -40px; */
+  margin: 30px auto -5px;
+}
+
+.date-label:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tooltip {
+  border: 1px solid black;
+  background: #fff;
+}
+
+.tooltip-expense-amount, .tooltip-expense-name{
+  padding: 3px 5px;
 }

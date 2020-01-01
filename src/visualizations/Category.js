@@ -62,7 +62,7 @@ export default class Bubble extends Component {
   }
 
   calculateData = () => {
-    const { data, categoryBeingAdded, width, height } = this.props;
+    const { data, width, height } = this.props;
     this.data = data.slice();
     this.data.map(d => {
       return Object.assign(d, {
@@ -72,15 +72,15 @@ export default class Bubble extends Component {
       });
     });
 
-    if (categoryBeingAdded) {
-      this.data.push(
-        Object.assign(categoryBeingAdded, {
-          fx: width / 2,
-          fy: -5,
-          radius
-        })
-      );
-    }
+    // if (categoryBeingAdded) {
+    //   this.data.push(
+    //     Object.assign(categoryBeingAdded, {
+    //       fx: width / 2,
+    //       fy: -5,
+    //       radius
+    //     })
+    //   );
+    // }
   };
 
   drawCircles = () => {
