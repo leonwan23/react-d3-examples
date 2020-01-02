@@ -1,28 +1,21 @@
+@import "./components/common/variables.scss";
+
 .App {
   margin: auto;
 }
 
+.loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 999;
+}
+
 p {
   margin: 0;
-}
-
-.expense-form {
-  text-align: center;
-}
-
-.category-input {
-  top: 0;
-  font-size: 14px;
-  text-align: center;
-  display: block;
-  padding: 5px;
-  width: 200px;
-  margin: 50px auto 0;
-  background: none;
-  color: #516561;
-  border: none;
-  border-bottom: 2px solid #516561;
-  position: relative;
 }
 
 .category-input:focus {
@@ -34,22 +27,39 @@ p {
   z-index: -1;
 }
 
-.month-label {
-  text-align: center;
-  /* margin: 50px auto -40px; */
-  margin: 30px auto -5px;
+.day-labels {
+  font-family: Dekko;
+  font-weight: 600;
 }
 
+.date-label {
+  font-family: Actor;
+  font-weight: 700;
+  font-size: 12px;
+}
 .date-label:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
 .tooltip {
-  border: 1px solid black;
-  background: #fff;
+  /* border: 1px solid #6298e8; */
+  background: #111;
+  opacity: 0.85;
 }
 
-.tooltip-expense-amount, .tooltip-expense-name{
+.tooltip-expense-name {
+  padding: 5px 7px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: Actor;
+  color: #fff;
+  font-weight: 500;
+}
+
+.tooltip-expense-amount {
   padding: 3px 5px;
+  font-family: Actor;
+  color: #fff;
+  font-weight: 500;
 }

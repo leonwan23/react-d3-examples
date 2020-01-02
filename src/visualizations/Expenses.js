@@ -5,7 +5,7 @@ import moment from "moment";
 let height = 600;
 const dayHeight = 73;
 const radius = 5;
-const fontSize = 14;
+const fontSize = 12;
 
 let xScale = d3.scaleLinear().domain([0, 6]);
 let yScale = d3.scaleLinear();
@@ -209,7 +209,7 @@ export default class Expenses extends Component {
     this.tooltip
       .select("foreignObject")
       .attr("width", Math.max(width1, width2) + 20)
-      .attr("height", height1 + height2 + d.radius + 12);
+      .attr("height", height1 + height2 + d.radius + 20);
   };
 
   render() {

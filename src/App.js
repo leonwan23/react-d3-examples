@@ -1,20 +1,22 @@
 import React from "react";
-import "./App.css";
-import fakeData from "./fakeData.json";
+import { connect } from "react-redux";
 import moment from "moment";
+
+import "./App.css";
+import "./components/expenses/expenses.scss";
 
 import Category from "./visualizations/Category";
 import Day from "./visualizations/Day";
 import Expenses from "./visualizations/Expenses";
 
-import DatePicker from "react-datepicker";
+import HandLoader from "./components/common/HandLoader";
+import MonthLabel from "./components/expenses/MonthLabel";
+import ExpenseForm from "./components/expenses/ExpenseForm";
 
-import "react-datepicker/dist/react-datepicker.css";
+import { expensesActions } from "./components/expenses/expensesActions";
 
 const width = 750;
 const height = 1000;
-
-const ENTER_CODE = 13;
 
 const style = {
   width
@@ -37,12 +39,14 @@ class App extends React.Component {
       expenseBeingAdded: { name: "" },
       selectedDate: new Date(), //current day,
       startDate: new Date(),
-      expenses: fakeData,
       amount: ""
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { selectedDate } = this.state;
+    this.props.getExpenses(selectedDate.getFullYear());
+  }
 
   startExpense = event => {
     const { value } = event.target;
@@ -54,10 +58,10 @@ class App extends React.Component {
 
   handleAmountChange = event => {
     const { name, value } = event.target;
-    if(!isNaN(value)){
+    if (!isNaN(value)) {
       this.setState({
         [name]: value
-      })
+      });
     }
   };
 
@@ -67,12 +71,12 @@ class App extends React.Component {
     var expense = Object.assign(expenseBeingAdded, {
       fx: null,
       fy: null,
-      amount,
+      amount: parseFloat(amount),
       date: moment(startDate).format("MM/DD/YYYY")
     });
-
+    this.props.addExpense(expense);
     this.setState({
-      expenses: [...expenses, expense],
+      // expenses: [...expenses, expense],
       expenseBeingAdded: { name: "" },
       amount: ""
     });
@@ -83,11 +87,19 @@ class App extends React.Component {
   selectMonth = (prev = true) => {
     const { selectedDate } = this.state;
     const monthDiff = prev ? -1 : 1;
-    this.setState({
-      selectedDate: moment(selectedDate)
-        .add(monthDiff, "months")
-        .toDate()
-    });
+    const newDate = moment(selectedDate)
+      .add(monthDiff, "months")
+      .toDate();
+    this.setState(
+      {
+        selectedDate: newDate
+      },
+      () => {
+        if (selectedDate.getFullYear() !== newDate.getFullYear()) {
+          this.props.getExpenses(newDate.getFullYear());
+        }
+      }
+    );
   };
 
   handleDateChange = date => {
@@ -100,10 +112,11 @@ class App extends React.Component {
     const {
       categories,
       selectedDate,
-      expenses,
       expenseBeingAdded,
-      amount
+      amount,
+      startDate
     } = this.state;
+    const { expenses, loadingExpenses, addingExpense } = this.props;
 
     const currentMonthExpenses = expenses.filter(
       d => new Date(d.date).getMonth() === selectedDate.getMonth()
@@ -111,46 +124,27 @@ class App extends React.Component {
 
     return (
       <div className="App" style={style}>
-        <form className="expense-form" onSubmit={this.addExpense}>
-          <input
-            id="category-input"
-            // className="category-input"
-            placeholder="Name"
-            onChange={this.startExpense}
-            name="expenseBeingAdded"
-            value={expenseBeingAdded.name}
-          ></input>
-          <input
-            placeholder="Amount"
-            name="amount"
-            type="text"
-            onChange={this.handleAmountChange}
-            value={amount}
-          />
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleDateChange}
-          />
-          <button
-            onClick={this.addExpense}
-            disabled={!expenseBeingAdded.name || !amount}
-          >
-            Add
-          </button>
-        </form>
-        <h3 className="month-label">
-          <span style={{ cursor: "pointer" }} onClick={this.selectMonth}>
-            ←{" "}
-          </span>
-          {moment(selectedDate).format("MMM YYYY")}
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => this.selectMonth(false)}
-          >
-            {" "}
-            →
-          </span>
-        </h3>
+        {!loadingExpenses ? (
+          ""
+        ) : (
+          <div className="loader-overlay">
+            <HandLoader />
+          </div>
+        )}
+        <ExpenseForm
+          addExpense={this.addExpense}
+          startExpense={this.startExpense}
+          expenseBeingAdded={expenseBeingAdded}
+          handleAmountChange={this.handleAmountChange}
+          startDate={startDate}
+          handleDateChange={this.handleDateChange}
+          amount={amount}
+          addingExpense={addingExpense}
+        />
+        <MonthLabel
+          selectedDate={moment(selectedDate).format("MMM YYYY")}
+          selectMonth={this.selectMonth}
+        />
         <svg
           className="svg-container"
           width={width}
@@ -180,4 +174,30 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  const {
+    loadingExpenses,
+    expenses,
+    expensesErr,
+    addingExpense
+  } = state.expensesReducer;
+  return {
+    loadingExpenses,
+    expenses,
+    expensesErr,
+    addingExpense
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getExpenses: year => {
+      return dispatch(expensesActions.getExpenses(year));
+    },
+    addExpense: expense => {
+      return dispatch(expensesActions.addExpense(expense));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

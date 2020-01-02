@@ -104,7 +104,6 @@ export default class Day extends Component {
       .attr("x", (d, i) => xScale(i))
       .attr("y", 60)
       .attr("text-anchor", "middle")
-      .attr("font-weight", "bold")
       .text(d => d);
   };
 
@@ -132,11 +131,9 @@ export default class Day extends Component {
 
     enter
       .append("text")
+      .attr("class", "date-label")
       .attr("text-anchor", "middle")
       .attr("dy", dayHeight - 10)
-      .attr("font-size", 12)
-      .attr("font-weight", "700")
-      .attr("class", "date-label")
       .attr("fill", "#fff8fa");
 
     //enter + update

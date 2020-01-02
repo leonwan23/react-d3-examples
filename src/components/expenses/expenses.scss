@@ -1,0 +1,178 @@
+@import "../common/variables.scss";
+
+$dark-blue: #001432;
+$month-label-margin: 5px auto -30px;
+$block-width: 270px;
+$font: Dekko;
+
+.arrow-wrapper {
+  width: $block-width;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.block {
+  width: $block-width;
+  height: 100px;
+  margin: $month-label-margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-family: Dekko;
+    font-weight: 600;
+  }
+}
+
+#month-label .arrow {
+  $size: 10px;
+  $width: 2px;
+
+  color: $dark-blue;
+  margin: $month-label-margin;
+  cursor: pointer;
+  display: block;
+  align-items: flex-start;
+  text-transform: uppercase;
+  position: relative;
+  transition: transform 0.3s;
+
+  span {
+    display: block;
+    width: 3em;
+    opacity: 0;
+    transition: opacity 0.3s 0s;
+    padding: 0 0.5em;
+    font-family: Dekko;
+  }
+
+  &:hover span {
+    opacity: 1;
+    transition: opacity 0.3s 0.1s;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    border: solid $dark-blue;
+    border-width: $width $width 0 0;
+    position: absolute;
+    top: 4px;
+    width: $size;
+    height: $size;
+  }
+
+  &.arrow--left:before {
+    transform: rotate(-135deg);
+    right: 0;
+    transition: right 0.3s 0.2s;
+  }
+  &.arrow--left:hover:before {
+    right: 100%;
+    transition: right 0.3s;
+  }
+
+  &.arrow--right {
+    text-align: right;
+  }
+  &.arrow--right:before {
+    left: 0;
+    transform: rotate(45deg);
+    transition: left 0.3s 0.2s;
+  }
+  &.arrow--right:hover:before {
+    left: 100%;
+    transition: left 0.3s;
+  }
+
+  &:hover {
+    transform: none;
+  }
+}
+
+.expense-form {
+  width: 250px;
+  margin: 25px auto 0;
+  text-align: center;
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.expense-form-header {
+  font-family: $font;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.expense-form-input {
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  padding: 7px 5px;
+  width: 100%;
+  margin: 5px auto;
+  background: none;
+  color: black;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  font-family: $font;
+}
+
+.expense-form-input:focus {
+  border-bottom: 2px solid black;
+}
+
+//overwrite react datepicker style
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  padding: 5px;
+  width: 100%;
+  margin: 5px auto;
+  background: none;
+  color: black;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  font-family: $font;
+}
+
+.react-datepicker__input-container input:focus {
+  border-bottom: 2px solid black;
+}
+
+.expense-form-button {
+  display: block;
+  width: 100%;
+  margin: 7px auto -3px;
+  border-radius: 4px;
+  background: #007bff;
+  opacity: 0.9;
+  color: #fff;
+  padding: 7px;
+  border: none;
+  font-family: $font;
+}
+
+.expense-form-button:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
