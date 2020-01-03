@@ -1,0 +1,34 @@
+@import "../components/common/variables.scss";
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  height: $navbar-height;
+  width: 100%;
+  background: $primary-color;
+  padding: calc(#{$navbar-height}/ 4) 15px 0;
+  margin: auto;
+  box-shadow: 0 4px 8px -6px rgba(0, 0, 0, 0.25);
+  z-index: 99;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .navbar-label{
+      color: #fff;
+      font-weight: 200;
+  }
+
+  .separator{
+    border-left: 1px solid #fff;
+    position: relative;
+    margin: 0 10px 0 20px;
+  }
+}

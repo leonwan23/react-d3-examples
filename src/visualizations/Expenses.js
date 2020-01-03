@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 
+import { theme } from "../constants/theme";
+
 let height = 600;
 const dayHeight = 73;
 const radius = 5;
@@ -120,7 +122,7 @@ export default class Expenses extends Component {
           fx: width / 2 + 70,
           fy: -286,
           radius: 5,
-          fill: "#6298e8"
+          fill: theme.PRIMARY_COLOR
         })
       );
     }
@@ -132,7 +134,10 @@ export default class Expenses extends Component {
     var x = xScale(dayOfWeek);
     var y = yScale(week) + 2 * dayHeight;
 
-    return { x, y };
+    return {
+      x,
+      y
+    };
   }
 
   renderCircles = () => {
@@ -172,10 +177,7 @@ export default class Expenses extends Component {
 
     var { x, y, name, amount } = d;
 
-    this.tooltip.attr(
-      "transform",
-      "translate(" + [x, y + d.radius + 20] + ")"
-    );
+    this.tooltip.attr("transform", "translate(" + [x, y + d.radius + 20] + ")");
     this.tooltip.select(".tooltip-expense-name").html(`<text>${name}</text>`);
     this.tooltip
       .select(".tooltip-expense-amount")
@@ -211,6 +213,6 @@ export default class Expenses extends Component {
   };
 
   render() {
-    return <g id="expenses-container"></g>;
+    return <g id="expenses-container"> </g>;
   }
 }

@@ -1,5 +1,6 @@
+@import  './variables.scss';
+
 $nail-color: #dbe9ee;
-$finger-color: #6298e8;
 
 // MIXINS
 // ---------
@@ -30,7 +31,7 @@ $finger-color: #6298e8;
 // ---------
 .loader-overlay {
   position: absolute;
-  top: 0;
+  top: $navbar-height;
   bottom: 0;
   left: 0;
   right: 0;
@@ -38,7 +39,7 @@ $finger-color: #6298e8;
   width: 100%;
   overflow: visible;
   background: rgba(255, 255, 255, 0.5);
-  z-index: 999;
+  z-index: 99;
 }
 
 .loading {
@@ -98,7 +99,7 @@ $finger-color: #6298e8;
     position: relative;
     @include square(100%);
     @include border-radius(6px, 6px, 8px, 8px);
-    background: $finger-color;
+    background: $primary-color;
 
     span {
       position: absolute;
@@ -138,7 +139,7 @@ $finger-color: #6298e8;
     top: 32px;
     @include size(110%, 20px);
     @include border-radius(0, 5px, 14px, 0);
-    background: $finger-color;
+    background: $primary-color;
     animation: finger-5-animation 1s infinite linear;
 
     i {
@@ -146,7 +147,7 @@ $finger-color: #6298e8;
       left: 0;
       top: -8px;
       @include size(22px, 8px);
-      background: $finger-color;
+      background: $primary-color;
       overflow: hidden;
 
       &:after {

@@ -8,6 +8,7 @@ $font: Dekko;
 .expenses-page{
   width: 750px;
   margin: auto;
+  padding: 15px;
 }
 
 .category-input:focus {
@@ -35,7 +36,6 @@ $font: Dekko;
 }
 
 .tooltip {
-  /* border: 1px solid #6298e8; */
   background: #111;
   opacity: 0.85;
 }
@@ -213,7 +213,7 @@ $font: Dekko;
   width: 100%;
   margin: 7px auto -3px;
   border-radius: 4px;
-  background: #007bff;
+  background: $primary-color;
   opacity: 0.9;
   color: #fff;
   padding: 7px;
@@ -228,5 +228,5 @@ $font: Dekko;
 
 .disabled {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.6;
 }
