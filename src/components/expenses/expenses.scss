@@ -5,6 +5,59 @@ $month-label-margin: 5px auto -30px;
 $block-width: 270px;
 $font: Dekko;
 
+.expenses-page{
+  width: 750px;
+  margin: auto;
+}
+
+.category-input:focus {
+  outline: none;
+}
+
+.svg-container {
+  overflow: visible;
+  z-index: -1;
+}
+
+.day-labels {
+  font-family: Dekko;
+  font-weight: 600;
+}
+
+.date-label {
+  font-family: Actor;
+  font-weight: 700;
+  font-size: 12px;
+}
+.date-label:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tooltip {
+  /* border: 1px solid #6298e8; */
+  background: #111;
+  opacity: 0.85;
+}
+
+.tooltip-expense-name {
+  padding: 5px 7px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: Actor;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.tooltip-expense-amount {
+  padding: 3px 5px;
+  font-family: Actor;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+}
+
 .arrow-wrapper {
   width: $block-width;
   display: flex;
@@ -94,11 +147,12 @@ $font: Dekko;
 
 .expense-form {
   width: 250px;
-  margin: 25px auto 0;
+  margin: 0 auto;
   text-align: center;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.35);
   border-radius: 4px;
   padding: 20px;
+  background: #fff;
 }
 
 .expense-form-header {

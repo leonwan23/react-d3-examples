@@ -3,9 +3,11 @@ import thunk from "redux-thunk";
 import { combineReducers } from "redux";
 
 import expensesReducer from "./components/expenses/expensesReducer";
+import authReducer from "./components/auth/authReducer";
 
 const rootReducer = combineReducers({
-  expensesReducer
+  expensesReducer,
+  authReducer
 });
 
 export default function configureStore(initialState = {}) {

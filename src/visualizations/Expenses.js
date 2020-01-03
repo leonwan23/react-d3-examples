@@ -5,7 +5,6 @@ import moment from "moment";
 let height = 600;
 const dayHeight = 73;
 const radius = 5;
-const fontSize = 12;
 
 let xScale = d3.scaleLinear().domain([0, 6]);
 let yScale = d3.scaleLinear();
@@ -118,10 +117,10 @@ export default class Expenses extends Component {
     if (expenseBeingAdded.name) {
       this.expenses.push(
         Object.assign(expenseBeingAdded, {
-          fx: width / 2,
-          fy: -5,
-          radius: 10,
-          fill: "#cccccc"
+          fx: width / 2 + 70,
+          fy: -286,
+          radius: 5,
+          fill: "#6298e8"
         })
       );
     }
@@ -175,7 +174,7 @@ export default class Expenses extends Component {
 
     this.tooltip.attr(
       "transform",
-      "translate(" + [x, y + d.radius + fontSize + 10] + ")"
+      "translate(" + [x, y + d.radius + 20] + ")"
     );
     this.tooltip.select(".tooltip-expense-name").html(`<text>${name}</text>`);
     this.tooltip
@@ -184,7 +183,6 @@ export default class Expenses extends Component {
     this.tooltip
       .select("text")
       .attr("text-anchor", "middle")
-      .style("font-size", fontSize)
       .style("pointer-events", "none");
     var width1 = this.tooltip
       .select(".tooltip-expense-name")
@@ -208,8 +206,8 @@ export default class Expenses extends Component {
       .getBoundingClientRect().height;
     this.tooltip
       .select("foreignObject")
-      .attr("width", Math.max(width1, width2) + 20)
-      .attr("height", height1 + height2 + d.radius + 20);
+      .attr("width", Math.max(width1, width2) + 10)
+      .attr("height", height1 + height2 + d.radius + 10);
   };
 
   render() {

@@ -21,7 +21,7 @@ export default function ExpenseForm({
       <div className="expense-form-header">Add expense</div>
       <input
         className="expense-form-input"
-        placeholder="Name"
+        placeholder="Item"
         onChange={startExpense}
         name="expenseBeingAdded"
         value={expenseBeingAdded.name}
