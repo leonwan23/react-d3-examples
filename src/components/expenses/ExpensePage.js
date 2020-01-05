@@ -16,7 +16,7 @@ import ExpenseForm from "./ExpenseForm";
 import { expensesActions } from "./expensesActions";
 
 const width = 750;
-const height = 1000;
+const height = 900;
 
 class ExpensePage extends React.Component {
   constructor(props) {
@@ -72,7 +72,6 @@ class ExpensePage extends React.Component {
     });
     this.props.addExpense(expense);
     this.setState({
-      // expenses: [...expenses, expense],
       expenseBeingAdded: { name: "" },
       amount: ""
     });
@@ -119,7 +118,7 @@ class ExpensePage extends React.Component {
     );
 
     return (
-      <Layout>
+      <Layout page="home">
         <div className="expenses-page">
           {!loadingExpenses ? (
             ""

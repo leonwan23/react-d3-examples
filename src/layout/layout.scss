@@ -6,29 +6,107 @@
   height: $navbar-height;
   width: 100%;
   background: $primary-color;
-  padding: calc(#{$navbar-height}/ 4) 15px 0;
+  padding: calc(#{$navbar-height}/ 4) 30px 0;
   margin: auto;
   box-shadow: 0 4px 8px -6px rgba(0, 0, 0, 0.25);
   z-index: 99;
+  position: fixed;
+  top: 0;
 
   a {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.75);
     text-decoration: none;
-  }
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: Actor;
 
-  a:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  .navbar-label{
+    &:hover {
       color: #fff;
-      font-weight: 200;
+      cursor: pointer;
+    }
   }
 
-  .separator{
+  .navbar-label {
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: Actor;
+  }
+
+  .separator {
     border-left: 1px solid #fff;
     position: relative;
     margin: 0 10px 0 20px;
+  }
+}
+
+.layout-page {
+  padding: calc(#{$navbar-height} + 15px) 15px 15px;
+}
+
+nav ul {
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  display: inline-block;
+}
+nav ul li a {
+  display: block;
+  padding-bottom: calc(#{$navbar-height}/ 4 + 6px);
+  text-decoration: none;
+  color: #aaa;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0 10px;
+  font-family: Actor;
+}
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+  transition: all 0.25s;
+}
+nav ul li a:hover {
+  color: #fff;
+}
+
+/* stroke */
+nav ul li a {
+  position: relative;
+}
+nav ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: ".";
+  color: transparent;
+  background: #fff;
+  height: 3px;
+}
+nav ul li a:hover:after {
+  width: 100%;
+}
+
+
+nav.navbar ul li .active {
+  pointer-events: none;
+  color: #fff;
+
+  &:after{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: ".";
+    color: transparent;
+    background: #fff;
+    height: 3px;
   }
 }

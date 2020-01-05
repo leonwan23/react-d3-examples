@@ -119,9 +119,9 @@ export default class Expenses extends Component {
     if (expenseBeingAdded.name) {
       this.expenses.push(
         Object.assign(expenseBeingAdded, {
-          fx: width / 2 + 70,
-          fy: -286,
-          radius: 5,
+          fx: width / 2,
+          fy: -290,
+          radius: 15,
           fill: theme.PRIMARY_COLOR
         })
       );

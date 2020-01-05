@@ -1,4 +1,4 @@
-@import  './variables.scss';
+@import "./variables.scss";
 
 $nail-color: #dbe9ee;
 
@@ -45,8 +45,8 @@ $nail-color: #dbe9ee;
 .loading {
   position: absolute;
   left: 50%;
-  top: 50%;
-  margin: -35px 0 0 -56px;
+  top: 30%;
+  margin: auto;
   @include size(112px, 70px);
   @include c;
 
@@ -500,4 +500,20 @@ $nail-color: #dbe9ee;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+//spinner loader
+.spinner {
+  border-radius: 50%;
+  margin: auto;
+
+  border-top: 2px solid;
+  border-right: 2px solid transparent;
+  animation: spinnerAnimation 700ms linear infinite;
+}
+
+@keyframes spinnerAnimation {
+  to {
+    transform: rotate(360deg);
+  }
 }

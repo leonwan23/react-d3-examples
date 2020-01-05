@@ -4,6 +4,8 @@ import "./expenses.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import Spinner from "../common/Spinner";
+
 export default function ExpenseForm({
   addExpense,
   startExpense,
@@ -18,7 +20,9 @@ export default function ExpenseForm({
     !expenseBeingAdded.name || !amount || amount <= 0 || addingExpense;
   return (
     <form className="expense-form" onSubmit={addExpense}>
-      <div className="expense-form-header">Add expense</div>
+      <div className="expense-form-header">
+        {expenseBeingAdded.name ? "\u00a0" : "Add expense"}
+      </div>
       <input
         className="expense-form-input"
         placeholder="Item"
@@ -44,7 +48,7 @@ export default function ExpenseForm({
         onClick={addExpense}
         disabled={buttonDisabled}
       >
-        Add
+        {!addingExpense ? "Add" : <Spinner />}
       </button>
     </form>
   );

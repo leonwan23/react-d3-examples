@@ -6,7 +6,7 @@ import { authActions } from "../components/auth/authActions";
 
 import "./layout.scss";
 
-class Header extends React.Component {
+class Navbar extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -14,15 +14,23 @@ class Header extends React.Component {
     this.props.logout();
   };
   render() {
+    const { page } = this.props;
     return (
-      <div className="navbar">
-        <Link to="/">Expense</Link>
-        <div>
-          <span className="navbar-label">Welcome User</span>
-          <span className="separator"></span>
-          <a onClick={this.logout}> Logout </a>
-        </div>
-      </div>
+        <nav className="navbar">
+          <ul>
+            <li>
+              <Link to="/" className={page === "home" ? "active" : ""}>
+                Home
+              </Link>
+            </li>
+          </ul>
+
+          <div>
+            <span className="navbar-label">Welcome User</span>
+            <span className="separator"></span>
+            <a onClick={this.logout}> Logout </a>
+          </div>
+        </nav>
     );
   }
 }
@@ -35,4 +43,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(null, mapDispatchToProps)(Navbar);

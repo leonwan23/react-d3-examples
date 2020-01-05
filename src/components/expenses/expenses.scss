@@ -5,10 +5,9 @@ $month-label-margin: 5px auto -30px;
 $block-width: 270px;
 $font: Dekko;
 
-.expenses-page{
+.expenses-page {
   width: 750px;
   margin: auto;
-  padding: 15px;
 }
 
 .category-input:focus {
@@ -29,10 +28,11 @@ $font: Dekko;
   font-family: Actor;
   font-weight: 700;
   font-size: 12px;
-}
-.date-label:hover {
-  cursor: pointer;
-  text-decoration: underline;
+
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 .tooltip {
@@ -175,10 +175,10 @@ $font: Dekko;
   border-bottom: 1px solid black;
   outline: none;
   font-family: $font;
-}
 
-.expense-form-input:focus {
-  border-bottom: 2px solid black;
+  &:focus {
+    border-bottom: 2px solid black;
+  }
 }
 
 //overwrite react datepicker style
@@ -202,10 +202,10 @@ $font: Dekko;
   border-bottom: 1px solid black;
   outline: none;
   font-family: $font;
-}
 
-.react-datepicker__input-container input:focus {
-  border-bottom: 2px solid black;
+  &:focus {
+    border-bottom: 2px solid black;
+  }
 }
 
 .expense-form-button {
@@ -219,13 +219,12 @@ $font: Dekko;
   padding: 7px;
   border: none;
   font-family: $font;
-}
 
-.expense-form-button:hover {
-  cursor: pointer;
-  opacity: 1;
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
 }
-
 .disabled {
   pointer-events: none;
   opacity: 0.6;
