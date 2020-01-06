@@ -161,6 +161,9 @@ export default class Day extends Component {
           return new Date(day).getTime() === d.date.getTime();
         });
         return match ? "all" : "none";
+      })
+      .on("click", d => {
+        this.props.selectDateToView(d.date)
       });
   };
 

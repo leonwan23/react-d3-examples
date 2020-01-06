@@ -35,7 +35,8 @@ class ExpensePage extends React.Component {
       expenseBeingAdded: { name: "" },
       selectedDate: new Date(), //current day,
       startDate: new Date(),
-      amount: ""
+      amount: "",
+      selectedDateToView: null
     };
   }
 
@@ -103,20 +104,26 @@ class ExpensePage extends React.Component {
     });
   };
 
+  selectDateToView = date => {
+    this.setState({
+      selectedDateToView: date
+    });
+  };
+
   render() {
     const {
       categories,
       selectedDate,
       expenseBeingAdded,
       amount,
-      startDate
+      startDate,
+      selectedDateToView
     } = this.state;
     const { expenses, loadingExpenses, addingExpense } = this.props;
 
     const currentMonthExpenses = expenses.filter(
       d => new Date(d.date).getMonth() === selectedDate.getMonth()
     );
-
     return (
       <Layout page="home">
         <div className="expenses-page">
@@ -127,44 +134,51 @@ class ExpensePage extends React.Component {
               <HandLoader />
             </div>
           )}
-          <ExpenseForm
-            addExpense={this.addExpense}
-            startExpense={this.startExpense}
-            expenseBeingAdded={expenseBeingAdded}
-            handleAmountChange={this.handleAmountChange}
-            startDate={startDate}
-            handleDateChange={this.handleDateChange}
-            amount={amount}
-            addingExpense={addingExpense}
-          />
-          <MonthLabel
-            selectedDate={moment(selectedDate).format("MMM YYYY")}
-            selectMonth={this.selectMonth}
-          />
-          <svg
-            className="svg-container"
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-          >
-            {/* <Category
+          {selectedDateToView ? (
+            <div onClick={() => this.selectDateToView(null)}>back</div>
+          ) : (
+            <>
+              <ExpenseForm
+                addExpense={this.addExpense}
+                startExpense={this.startExpense}
+                expenseBeingAdded={expenseBeingAdded}
+                handleAmountChange={this.handleAmountChange}
+                startDate={startDate}
+                handleDateChange={this.handleDateChange}
+                amount={amount}
+                addingExpense={addingExpense}
+              />
+              <MonthLabel
+                selectedDate={moment(selectedDate).format("MMM YYYY")}
+                selectMonth={this.selectMonth}
+              />
+              <svg
+                className="svg-container"
+                width={width}
+                height={height}
+                viewBox={`0 0 ${width} ${height}`}
+              >
+                {/* <Category
             data={categories}
             width={width}
             height={height}
           /> */}
 
-            <Day
-              expenses={currentMonthExpenses}
-              width={width}
-              selectedDate={selectedDate}
-            />
-            <Expenses
-              width={width}
-              data={currentMonthExpenses}
-              selectedDate={selectedDate}
-              expenseBeingAdded={expenseBeingAdded}
-            />
-          </svg>
+                <Day
+                  expenses={currentMonthExpenses}
+                  width={width}
+                  selectedDate={selectedDate}
+                  selectDateToView={this.selectDateToView}
+                />
+                <Expenses
+                  width={width}
+                  data={currentMonthExpenses}
+                  selectedDate={selectedDate}
+                  expenseBeingAdded={expenseBeingAdded}
+                />
+              </svg>
+            </>
+          )}
         </div>
       </Layout>
     );
