@@ -9,7 +9,8 @@ export default function LoginForm({
   username,
   password,
   loggingIn,
-  signingUp
+  signingUp,
+  loginErr
 }) {
   const buttonDisabled =
     username.length < 1 ||
@@ -20,11 +21,12 @@ export default function LoginForm({
   return (
     <div className={"login " + (viewLogin ? "" : "slide-up")}>
       <div className="center">
+        {!loginErr || !viewLogin ? "" : <div className="error-message">{loginErr}</div>}
         <h2
           className="form-title"
           id="login"
           onClick={toggleView}
-          style={{pointerEvents: viewLogin || signingUp ? "none" : "all"}}
+          style={{ pointerEvents: viewLogin || signingUp ? "none" : "all" }}
         >
           <span>or</span>Log in
         </h2>

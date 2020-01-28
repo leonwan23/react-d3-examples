@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+  d3-expenses:
+    external:
+      name: d3-expenses
+
+services:
+  reverse-proxy:
+    image: traefik:1.7.9
+    command: --api --docker.exposedbydefault=false
+    ports:
+      - "80:80" # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+    networks:
+      - d3-expenses
+
+  d3-expenses-app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - ".:/app"
+      - /app/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:d3-expenses.web.localhost"
+    ports:
+      - "3000:3000"
+    networks:
+      - d3-expenses

@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import configureStore from "./store";
+require("dotenv").config();
 
 const { store, persistor } = configureStore();
 

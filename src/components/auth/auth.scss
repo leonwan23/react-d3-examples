@@ -17,6 +17,7 @@
   overflow: hidden;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.35);
   margin-top: 10vh;
+  font-family: Actor;
 
   &::after {
     content: "";
@@ -39,6 +40,7 @@
     z-index: 5;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    font-family: Actor;
 
     &.slide-up {
       top: 5%;
@@ -72,6 +74,7 @@
       font-size: 11px;
       text-align: center;
       margin-top: 3px;
+      font-family: Actor;
     }
 
     .form-title {
@@ -109,12 +112,14 @@
         border-bottom: 1px solid #eee;
         width: 100%;
         font-size: 12px;
+        font-family: Actor;
 
         &:last-child {
           border-bottom: 0;
         }
         &::-webkit-input-placeholder {
           color: rgba(0, 0, 0, 0.4);
+          font-family: Actor;
         }
       }
     }
@@ -135,6 +140,7 @@
       visibility: visible;
       -webkit-transition: all 0.3s ease;
       transition: all 0.3s ease;
+      font-family: Actor;
 
       &:hover {
         transition: all 0.3s ease;
@@ -224,12 +230,14 @@
           border-bottom: 1px solid #eee;
           width: 100%;
           font-size: 12px;
+          font-family: Actor;
 
           &:last-child {
             border-bottom: 0;
           }
           &::-webkit-input-placeholder {
             color: rgba(0, 0, 0, 0.4);
+            font-family: Actor;
           }
         }
       }
@@ -250,6 +258,7 @@
         visibility: visible;
         -webkit-transition: all 0.3s ease;
         transition: all 0.3s ease;
+        font-family: Actor;
 
         &:hover {
           transition: all 0.3s ease;
@@ -309,4 +318,14 @@
       transition: all 0.3s ease;
     }
   }
+}
+
+.error-message{
+  text-align: center;
+  background: rgba(226, 106, 106, 1);
+  padding: 8px 5px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-family: Actor;
 }

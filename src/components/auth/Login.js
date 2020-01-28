@@ -18,9 +18,14 @@ class Login extends Component {
       loginPassword: ""
     };
   }
+
+  componentDidMount() {
+    this.props.clearErrorMessage();
+  }
+
   login = () => {
     const { loginUsername, loginPassword } = this.state;
-    this.props.login();
+    this.props.login(loginUsername, loginPassword);
   };
 
   signup = () => {
@@ -49,8 +54,8 @@ class Login extends Component {
       loginUsername,
       loginPassword
     } = this.state;
-    const { loggedIn, loggingIn, loginErr, signingUp, signupErr } = this.props;
-    if (loggedIn) {
+    const { token, loggingIn, loginErr, signingUp, signupErr } = this.props;
+    if (token) {
       return <Redirect to="/" />;
     }
     return (
@@ -75,6 +80,7 @@ class Login extends Component {
             password={loginPassword}
             loggingIn={loggingIn}
             signingUp={signingUp}
+            loginErr={loginErr}
           />
         </div>
       </div>
@@ -85,7 +91,7 @@ class Login extends Component {
 const mapStateToProps = state => {
   const {
     loggingIn,
-    loggedIn,
+    token,
     loginErr,
     signingUp,
     signupErr,
@@ -93,7 +99,7 @@ const mapStateToProps = state => {
   } = state.authReducer;
   return {
     loggingIn,
-    loggedIn,
+    token,
     loginErr,
     signingUp,
     signupErr,
@@ -103,11 +109,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => {
-      return dispatch(authActions.login());
+    login: (username, password) => {
+      return dispatch(authActions.login(username, password));
     },
-    signup: () => {
-      return dispatch(authActions.signup());
+    signup: (username, password) => {
+      return dispatch(authActions.signup(username, password));
+    },
+    clearErrorMessage: () => {
+      return dispatch(authActions.clearErrorMessage());
     }
   };
 };

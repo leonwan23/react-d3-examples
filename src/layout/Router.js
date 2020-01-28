@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      return rest.loggedIn ? (
+      return rest.token ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -24,7 +24,7 @@ const Router = props => {
   return (
     <Switch>
       <Route exact path="/login" component={Login} />
-      <PrivateRoute path="/" component={ExpensePage} loggedIn={props.loggedIn} />
+      <PrivateRoute path="/" component={ExpensePage} token={props.token} />
     </Switch>
   );
 };
