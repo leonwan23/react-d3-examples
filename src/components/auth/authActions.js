@@ -33,7 +33,7 @@ const login = (username, password) => {
     try {
       const res = await fetch(REACT_APP_API_URL + "v1/users/login", {
         method: 'post',
-        body,
+        body: JSON.stringify(body),
         headers: new Headers({
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -41,7 +41,6 @@ const login = (username, password) => {
         })
       });
       const r = await res.json()
-      console.log(r)
       return dispatch(success(actionTypes.LOGIN_SUCCESS, r));
     } catch (err) {
       console.log(err.message);
