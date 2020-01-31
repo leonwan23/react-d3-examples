@@ -1,583 +1,353 @@
 @import "./variables.scss";
 
-$nail-color: #dbe9ee;
-
-// MIXINS
-// ---------
-@mixin c() {
-  *zoom: 1;
-
-  &:before,
-  &:after {
-    display: table;
-    content: "";
-  }
-
-  &:after {
-    clear: both;
-  }
-}
-
-@mixin size($width: 5px, $height: 5px) {
-  width: $width;
-  height: $height;
-}
-
-@mixin square($size: 5px) {
-  @include size($size, $size);
-}
-
-@mixin border-radius($top, $right, $bottom, $left) {
-  border-radius: $top $right $bottom $left;
-}
+$pacman-color: #fcf340;
+$pacman-size: 96px;
+$balls-size: 16px;
 
 // LOADING
 // ---------
 .loader-overlay {
   position: absolute;
-  top: $navbar-height;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   margin: 0 auto;
   width: 100%;
   overflow: visible;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 99;
 }
 
-.loading {
+.la-pacman,
+.la-pacman>div {
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.la-pacman {
+  position: fixed;
+  display: block;
+  font-size: 0;
+  color: $pacman-color;
+  top: calc(30% + #{$pacman-size});
+  left: calc(50% - #{$pacman-size} /2);
+}
+
+.la-pacman>div {
+  display: inline-block;
+  float: none;
+  background-color: $pacman-color;
+  border: 0 solid $pacman-color;
+}
+
+.la-pacman {
+  width: $pacman-size;
+  height: $pacman-size;
+}
+
+.la-pacman>div:nth-child(1),
+.la-pacman>div:nth-child(2) {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-style: solid;
+  border-width: calc(#{$pacman-size}/2);
+  border-right-color: transparent;
+  border-radius: 100%;
+  -webkit-animation: pacman-rotate-half-up .5s 0s infinite;
+  -moz-animation: pacman-rotate-half-up .5s 0s infinite;
+  -o-animation: pacman-rotate-half-up .5s 0s infinite;
+  animation: pacman-rotate-half-up .5s 0s infinite;
+}
+
+.la-pacman>div:nth-child(2) {
+  margin-top: -$pacman-size;
+  -webkit-animation-name: pacman-rotate-half-down;
+  -moz-animation-name: pacman-rotate-half-down;
+  -o-animation-name: pacman-rotate-half-down;
+  animation-name: pacman-rotate-half-down;
+}
+
+.la-pacman>div:nth-child(3),
+.la-pacman>div:nth-child(4),
+.la-pacman>div:nth-child(5),
+.la-pacman>div:nth-child(6) {
   position: absolute;
-  left: 50%;
-  top: 30%;
-  margin: auto;
-  @include size(112px, 70px);
-  @include c;
-
-  .finger {
-    float: left;
-    margin: 0 2px 0 0;
-    @include size(20px, 100%);
-  }
-
-  .finger-1 {
-    animation: finger-1-animation 1s infinite ease-out;
-
-    span {
-      animation: finger-1-animation-span 1s infinite ease-out;
-    }
-
-    i {
-      animation: finger-1-animation-i 1s infinite ease-out;
-    }
-  }
-
-  .finger-2 {
-    animation: finger-2-animation 1s infinite ease-out;
-
-    span {
-      animation: finger-2-animation-span 1s infinite ease-out;
-    }
-
-    i {
-      animation: finger-2-animation-i 1s infinite ease-out;
-    }
-  }
-
-  .finger-3 {
-    animation: finger-3-animation 1s infinite ease-out;
-
-    span {
-      animation: finger-3-animation-span 1s infinite ease-out;
-    }
-
-    i {
-      animation: finger-3-animation-i 1s infinite ease-out;
-    }
-  }
-
-  .finger-4 {
-    animation: finger-4-animation 1s infinite ease-out;
-
-    span {
-      animation: finger-4-animation-span 1s infinite ease-out;
-    }
-
-    i {
-      animation: finger-4-animation-i 1s infinite ease-out;
-    }
-  }
-
-  .finger-item {
-    position: relative;
-    @include square(100%);
-    @include border-radius(6px, 6px, 8px, 8px);
-    background: $primary-color;
-
-    span {
-      position: absolute;
-      left: 0;
-      top: 0;
-      @include size(100%, auto);
-      padding: 5px 5px 0 5px;
-
-      &:before,
-      &:after {
-        content: "";
-        position: relative;
-        display: block;
-        margin: 0 0 2px 0;
-        @include size(100%, 2px);
-        background: $nail-color;
-      }
-    }
-
-    i {
-      position: absolute;
-      left: 3px;
-      bottom: 3px;
-      @include size(14px, 14px);
-      @include border-radius(10px, 10px, 7px, 7px);
-      background: $nail-color;
-    }
-  }
-
-  .last-finger {
-    position: relative;
-    float: left;
-    @include size(24px, 100%);
-    overflow: hidden;
-  }
-
-  .last-finger-item {
-    position: absolute;
-    right: 0;
-    top: 32px;
-    @include size(110%, 20px);
-    @include border-radius(0, 5px, 14px, 0);
-    background: $primary-color;
-    animation: finger-5-animation 1s infinite linear;
-
-    i {
-      position: absolute;
-      left: 0;
-      top: -8px;
-      @include size(22px, 8px);
-      background: $primary-color;
-      overflow: hidden;
-
-      &:after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        @include size(34px, 20px);
-        @include border-radius(0, 0, 15px, 15px);
-        background: $nail-color;
-      }
-    }
-  }
+  top: 50%;
+  left: 200%;
+  width: $balls-size;
+  height: $balls-size;
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-animation: pacman-balls 2s 0s infinite linear;
+  -moz-animation: pacman-balls 2s 0s infinite linear;
+  -o-animation: pacman-balls 2s 0s infinite linear;
+  animation: pacman-balls 2s 0s infinite linear;
 }
 
-// ANIMATION
-// ---------
-@keyframes finger-1-animation {
-  0% {
-    padding: 12px 0 5px 0;
-  }
+.la-pacman>div:nth-child(3) {
+  -webkit-animation-delay: -1.44s;
+  -moz-animation-delay: -1.44s;
+  -o-animation-delay: -1.44s;
+  animation-delay: -1.44s;
+}
 
-  20% {
-    padding: 12px 0 5px 0;
-  }
+.la-pacman>div:nth-child(4) {
+  -webkit-animation-delay: -1.94s;
+  -moz-animation-delay: -1.94s;
+  -o-animation-delay: -1.94s;
+  animation-delay: -1.94s;
+}
 
-  29% {
-    padding: 4px 0 24px 0;
-  }
+.la-pacman>div:nth-child(5) {
+  -webkit-animation-delay: -2.44s;
+  -moz-animation-delay: -2.44s;
+  -o-animation-delay: -2.44s;
+  animation-delay: -2.44s;
+}
 
-  35% {
-    padding: 4px 0 24px 0;
-  }
+.la-pacman>div:nth-child(6) {
+  -webkit-animation-delay: -2.94s;
+  -moz-animation-delay: -2.94s;
+  -o-animation-delay: -2.94s;
+  animation-delay: -2.94s;
+}
 
-  41% {
-    padding: 12px 0 5px 0;
-  }
+/*
+ * Animations
+ */
+@-webkit-keyframes pacman-rotate-half-up {
 
+  0%,
   100% {
-    padding: 12px 0 5px 0;
-  }
-}
-
-@keyframes finger-1-animation-span {
-  0% {
-    top: 0;
-  }
-
-  20% {
-    top: 0;
-  }
-
-  29% {
-    top: -7px;
-  }
-
-  35% {
-    top: -7px;
-  }
-
-  41% {
-    top: 0;
-  }
-
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes finger-1-animation-i {
-  0% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  20% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  29% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  35% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  41% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  100% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-}
-
-@keyframes finger-2-animation {
-  0% {
-    padding: 6px 0 2px 0;
-  }
-
-  24% {
-    padding: 6px 0 2px 0;
-  }
-
-  33% {
-    padding: 2px 0 16px 0;
-  }
-
-  39% {
-    padding: 2px 0 16px 0;
-  }
-
-  45% {
-    padding: 6px 0 2px 0;
-  }
-
-  100% {
-    padding: 6px 0 2px 0;
-  }
-}
-
-@keyframes finger-2-animation-span {
-  0% {
-    top: 0;
-  }
-
-  24% {
-    top: 0;
-  }
-
-  33% {
-    top: -7px;
-  }
-
-  39% {
-    top: -7px;
-  }
-
-  45% {
-    top: 0;
-  }
-
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes finger-2-animation-i {
-  0% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  24% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  33% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  39% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  45% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  100% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-}
-
-@keyframes finger-3-animation {
-  0% {
-    padding: 0 0 0 0;
-  }
-
-  28% {
-    padding: 0 0 0 0;
-  }
-
-  37% {
-    padding: 0 0 12px 0;
-  }
-
-  43% {
-    padding: 0 0 12px 0;
-  }
-
-  49% {
-    padding: 0 0 0 0;
-  }
-
-  100% {
-    padding: 0 0 0 0;
-  }
-}
-
-@keyframes finger-3-animation-span {
-  0% {
-    top: 0;
-  }
-
-  28% {
-    top: 0;
-  }
-
-  37% {
-    top: -7px;
-  }
-
-  43% {
-    top: -7px;
-  }
-
-  49% {
-    top: 0;
-  }
-
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes finger-3-animation-i {
-  0% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  28% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  37% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  43% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  49% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  100% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-}
-
-@keyframes finger-4-animation {
-  0% {
-    padding: 8px 0 3px 0;
-  }
-
-  32% {
-    padding: 8px 0 3px 0;
-  }
-
-  41% {
-    padding: 4px 0 20px 0;
-  }
-
-  47% {
-    padding: 4px 0 20px 0;
-  }
-
-  53% {
-    padding: 8px 0 3px 0;
-  }
-
-  100% {
-    padding: 8px 0 3px 0;
-  }
-}
-
-@keyframes finger-4-animation-span {
-  0% {
-    top: 0;
-  }
-
-  32% {
-    top: 0;
-  }
-
-  41% {
-    top: -7px;
-  }
-
-  47% {
-    top: -7px;
-  }
-
-  53% {
-    top: 0;
-  }
-
-  100% {
-    top: 0;
-  }
-}
-
-@keyframes finger-4-animation-i {
-  0% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  32% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  41% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  47% {
-    bottom: 8px;
-    height: 12px;
-    @include border-radius(7px, 7px, 4px, 4px);
-  }
-
-  53% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-
-  100% {
-    bottom: 3px;
-    height: 14px;
-    @include border-radius(10px, 10px, 7px, 7px);
-  }
-}
-
-@keyframes finger-5-animation {
-  0% {
-    top: 32px;
-    right: 0;
-    @include border-radius(0, 5px, 14px, 0);
-  }
-
-  34% {
-    top: 32px;
-    right: 0;
-    @include border-radius(0, 5px, 14px, 0);
-  }
-
-  43% {
-    top: 20px;
-    right: 2px;
-    @include border-radius(0, 8px, 20px, 0);
-    transform: rotate(-12deg);
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
   }
 
   50% {
-    top: 20px;
-    right: 2px;
-    @include border-radius(0, 8px, 20px, 0);
-    transform: rotate(-12deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes pacman-rotate-half-up {
+
+  0%,
+  100% {
+    -moz-transform: rotate(270deg);
+    transform: rotate(270deg);
   }
 
-  60% {
-    top: 32px;
-    right: 0;
-    @include border-radius(0, 5px, 14px, 0);
+  50% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes pacman-rotate-half-up {
+
+  0%,
+  100% {
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+  }
+
+  50% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pacman-rotate-half-up {
+
+  0%,
+  100% {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes pacman-rotate-half-down {
+
+  0%,
+  100% {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+@-moz-keyframes pacman-rotate-half-down {
+
+  0%,
+  100% {
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  50% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+@-o-keyframes pacman-rotate-half-down {
+
+  0%,
+  100% {
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  50% {
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pacman-rotate-half-down {
+
+  0%,
+  100% {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes pacman-balls {
+  0% {
+    left: 200%;
+    opacity: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  5% {
+    opacity: .5;
+  }
+
+  66% {
+    opacity: 1;
+  }
+
+  67% {
+    opacity: 0;
   }
 
   100% {
-    top: 32px;
-    right: 0;
-    @include border-radius(0, 5px, 14px, 0);
+    left: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+@-moz-keyframes pacman-balls {
+  0% {
+    left: 200%;
+    opacity: 0;
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  5% {
+    opacity: .5;
+  }
+
+  66% {
+    opacity: 1;
+  }
+
+  67% {
+    opacity: 0;
+  }
+
+  100% {
+    left: 0;
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+@-o-keyframes pacman-balls {
+  0% {
+    left: 200%;
+    opacity: 0;
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  5% {
+    opacity: .5;
+  }
+
+  66% {
+    opacity: 1;
+  }
+
+  67% {
+    opacity: 0;
+  }
+
+  100% {
+    left: 0;
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes pacman-balls {
+  0% {
+    left: 200%;
+    opacity: 0;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  5% {
+    opacity: .5;
+  }
+
+  66% {
+    opacity: 1;
+  }
+
+  67% {
+    opacity: 0;
+  }
+
+  100% {
+    left: 0;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 }
 
