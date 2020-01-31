@@ -9,7 +9,7 @@ import Category from "../../visualizations/Category";
 import Day from "../../visualizations/Day";
 import Expenses from "../../visualizations/Expenses";
 
-import HandLoader from "../common/HandLoader";
+import PacmanLoader from "../common/PacmanLoader";
 import MonthLabel from "./MonthLabel";
 import ExpenseForm from "./ExpenseForm";
 
@@ -139,7 +139,7 @@ class ExpensePage extends React.Component {
             ""
           ) : (
             <div className="loader-overlay">
-              <HandLoader />
+              <PacmanLoader />
             </div>
           )}
           {selectedDateToView ? (
