@@ -1,31 +1,15 @@
-import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
+import { Switch, Route } from "react-router";
 import Login from "../components/auth/Login";
 import ExpensePage from "../components/expenses/ExpensePage";
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props => {
-      return rest.token ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login"
-          }}
-        />
-      );
-    }}
-  />
-);
-
-const Router = props => {
+const Router = () => {
   return (
     <Switch>
       <Route exact path="/login" component={Login} />
-      <PrivateRoute path="/" component={ExpensePage} token={props.token} />
+      <Route exact path="/" component={ExpensePage} />
     </Switch>
   );
 };
+
 export default Router;

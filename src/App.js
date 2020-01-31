@@ -1,24 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import Router from "./layout/Router";
-import { connect } from "react-redux";
 
-class App extends Component {
+export default class App extends React.Component {
   render() {
-    const { authUser, token } = this.props;
     return (
       <div className="App">
-        <Router token={token}/>
+        <Router />
       </div>
     );
   }
 }
-
-const mapStateToProps = state => {
-  const { token, authUser } = state.authReducer;
-  return {
-    authUser,
-    token
-  };
-};
-
-export default connect(mapStateToProps)(App);

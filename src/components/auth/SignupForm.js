@@ -8,6 +8,7 @@ export default function SignupForm({
   handleChange,
   username,
   password,
+  reenterPassword,
   signup,
   signingUp,
   loggingIn
@@ -43,6 +44,14 @@ export default function SignupForm({
           placeholder="Password"
           value={password}
           name="signupPassword"
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          className="input"
+          placeholder="Re-enter password"
+          value={reenterPassword}
+          name="reenterSignupPassword"
           onChange={handleChange}
         />
       </div>

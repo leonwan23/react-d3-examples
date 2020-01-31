@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { authActions } from "./authActions";
-import { Redirect } from "react-router-dom";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 
 import "./auth.scss";
+import { isAuthenticated } from "../../lib/auth";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Login extends Component {
       viewLogin: true,
       signupUsername: "",
       signupPassword: "",
+      reenterSignupPassword: "",
       loginUsername: "",
       loginPassword: ""
     };
@@ -47,6 +49,9 @@ class Login extends Component {
   };
 
   render() {
+    if (isAuthenticated()) {
+      return <Redirect to="/" />;
+    }
     const {
       viewLogin,
       signupUsername,
@@ -54,10 +59,14 @@ class Login extends Component {
       loginUsername,
       loginPassword
     } = this.state;
-    const { token, loggingIn, loginErr, signingUp, signupErr } = this.props;
-    if (token) {
-      return <Redirect to="/" />;
-    }
+    const {
+      loggingIn,
+      loginErr,
+      signingUp,
+      signupErr,
+      reenterSignupPassword
+    } = this.props;
+
     return (
       <div className="login-page">
         <div className="form-structor">
@@ -67,6 +76,7 @@ class Login extends Component {
             handleChange={this.handleChange}
             username={signupUsername}
             password={signupPassword}
+            reenterPassword={reenterSignupPassword}
             signup={this.signup}
             signingUp={signingUp}
             loggingIn={loggingIn}
@@ -91,7 +101,6 @@ class Login extends Component {
 const mapStateToProps = state => {
   const {
     loggingIn,
-    token,
     loginErr,
     signingUp,
     signupErr,
@@ -99,7 +108,6 @@ const mapStateToProps = state => {
   } = state.authReducer;
   return {
     loggingIn,
-    token,
     loginErr,
     signingUp,
     signupErr,

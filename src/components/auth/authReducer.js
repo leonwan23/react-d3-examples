@@ -3,10 +3,10 @@ import { actionTypes } from "./authActions";
 const initialState = {
   loggingIn: false,
   loginErr: "",
+  auth: false,
   authUser: null,
   signingUp: false,
-  signupErr: "",
-  token: null
+  signupErr: ""
 };
 
 export default (state = initialState, action) => {
@@ -14,13 +14,15 @@ export default (state = initialState, action) => {
     case actionTypes.LOGGING_IN:
       return Object.assign({}, state, {
         loggingIn: true,
-        loginErr: ""
+        loginErr: "",
+        signupErr: ""
       });
     case actionTypes.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         loggingIn: false,
-        token: action.payload.token,
-        loginErr: ""
+        authUser: action.payload.user,
+        loginErr: "",
+        auth: true
       });
     case actionTypes.LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -31,13 +33,14 @@ export default (state = initialState, action) => {
     case actionTypes.LOG_OUT:
       return Object.assign({}, state, {
         loggingIn: false,
-        token: null,
-        authUser: null
+        authUser: null,
+        auth: false
       });
     case actionTypes.SIGNING_UP:
       return Object.assign({}, state, {
         signingUp: true,
-        signupErr: ""
+        signupErr: "",
+        loginErr: ""
       });
     case actionTypes.SIGNUP_SUCCESS:
       return Object.assign({}, state, {

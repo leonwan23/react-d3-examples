@@ -1,9 +1,7 @@
-import {
-  request,
-  success,
-  failure
-} from "../../utils/redux";
-import fetch from 'isomorphic-unfetch'
+import { request, success, failure } from "../../utils/redux";
+import { authService } from "./authService";
+import { setCookie, removeCookie } from "../../lib/session";
+import { authConstants } from "../../constants/authConstants";
 
 export const actionTypes = {
   LOGGING_IN: "LOGGING_IN",
@@ -19,55 +17,46 @@ export const actionTypes = {
   CLEAR_LOGIN_ERROR: "CLEAR_LOGIN_ERROR"
 };
 
-const {
-  REACT_APP_API_URL
-} = process.env;
-
 const login = (username, password) => {
-  return async dispatch => {
+  return dispatch => {
     dispatch(request(actionTypes.LOGGING_IN));
-    const body = {
-      username,
-      password
-    }
-    try {
-      const res = await fetch(REACT_APP_API_URL + "v1/users/login", {
-        method: 'post',
-        body: JSON.stringify(body),
-        headers: new Headers({
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        })
-      });
-      const r = await res.json()
-      return dispatch(success(actionTypes.LOGIN_SUCCESS, r));
-    } catch (err) {
-      console.log(err.message);
-      dispatch(failure(actionTypes.LOGIN_FAILURE, err.message));
-    }
+    return authService.login(username, password).then(
+      result => {
+        setCookie(authConstants.USER_ACCESS_TOKEN_KEY, result.token);
+        dispatch(success(actionTypes.LOGIN_SUCCESS, result));
+      },
+      err => {
+        const { error } = err.data;
+        dispatch(failure(actionTypes.LOGIN_FAILURE, error));
+      }
+    );
   };
 };
 
-const signup = () => {
-  return async dispatch => {
+const signup = (username, password, reenterPassword) => {
+  return dispatch => {
     dispatch(request(actionTypes.SIGNING_UP));
-    try {
-      const res = await new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          resolve(true);
-        }, 1000);
-      });
-      return dispatch(success(actionTypes.SIGNUP_SUCCESS, res));
-    } catch (err) {
-      console.log(err);
-      dispatch(failure(actionTypes.SIGNUP_FAILURE, err));
+    //check passwords match
+    if (password !== reenterPassword) {
+      return dispatch(
+        failure(actionTypes.SIGNIN_FAILURE, "Passwords don't match")
+      );
     }
+    return authService.signup(username, password).then(
+      result => {
+        dispatch(success(actionTypes.SIGNIN_SUCCESS, result));
+      },
+      err => {
+        const { error } = err.data;
+        dispatch(failure(actionTypes.SIGNIN_FAILURE, error));
+      }
+    );
   };
 };
 
 const logout = () => {
   return dispatch => {
+    removeCookie(authConstants.USER_ACCESS_TOKEN_KEY);
     return dispatch(success(actionTypes.LOG_OUT));
   };
 };

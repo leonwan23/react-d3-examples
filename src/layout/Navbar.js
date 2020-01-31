@@ -14,7 +14,8 @@ class Navbar extends React.Component {
     this.props.logout();
   };
   render() {
-    const { page } = this.props;
+    const { page, authUser } = this.props;
+    const username = authUser ? authUser.username : "User"
     return (
         <nav className="navbar">
           <ul>
@@ -26,7 +27,7 @@ class Navbar extends React.Component {
           </ul>
 
           <div>
-            <span className="navbar-label">Welcome User</span>
+            <span className="navbar-label">Welcome {username}</span>
             <span className="separator"></span>
             <a onClick={this.logout}> Logout </a>
           </div>
@@ -34,6 +35,13 @@ class Navbar extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  const { authUser } = state.authReducer;
+  return {
+    authUser
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -43,4 +51,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
