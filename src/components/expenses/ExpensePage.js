@@ -44,7 +44,9 @@ class ExpensePage extends React.Component {
   componentDidMount() {
     const { selectedDate } = this.state;
     const { authUser, getExpenses } = this.props;
-    getExpenses(authUser.id, selectedDate.getFullYear());
+    if (authUser) {
+      getExpenses(authUser.id, selectedDate.getFullYear());
+    }
   }
 
   startExpense = event => {
