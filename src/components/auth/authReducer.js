@@ -3,7 +3,6 @@ import { actionTypes } from "./authActions";
 const initialState = {
   loggingIn: false,
   loginErr: "",
-  auth: false,
   authUser: null,
   signingUp: false,
   signupErr: ""
@@ -21,8 +20,7 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         loggingIn: false,
         authUser: action.payload.user,
-        loginErr: "",
-        auth: true
+        loginErr: ""
       });
     case actionTypes.LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -33,8 +31,8 @@ export default (state = initialState, action) => {
     case actionTypes.LOG_OUT:
       return Object.assign({}, state, {
         loggingIn: false,
-        authUser: null,
-        auth: false
+        signingUp: false,
+        authUser: null
       });
     case actionTypes.SIGNING_UP:
       return Object.assign({}, state, {
@@ -45,12 +43,14 @@ export default (state = initialState, action) => {
     case actionTypes.SIGNUP_SUCCESS:
       return Object.assign({}, state, {
         signingUp: false,
-        signupErr: ""
+        signupErr: "",
+        authUser: action.payload.user
       });
     case actionTypes.SIGNUP_FAILURE:
       return Object.assign({}, state, {
         signingUp: false,
-        signupErr: action.payload
+        signupErr: action.payload,
+        authUser: null
       });
     case actionTypes.CLEAR_LOGIN_ERROR:
       return Object.assign({}, state, {

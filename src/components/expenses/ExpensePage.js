@@ -14,8 +14,6 @@ import MonthLabel from "./MonthLabel";
 import ExpenseForm from "./ExpenseForm";
 
 import { expensesActions } from "./expensesActions";
-import { isAuthenticated } from "../../lib/auth";
-import { Redirect } from "react-router-dom";
 
 const width = 750;
 const height = 900;
@@ -35,16 +33,18 @@ class ExpensePage extends React.Component {
         }
       ],
       expenseBeingAdded: { name: "" },
-      selectedDate: new Date(), //current day,
-      startDate: new Date(),
+      selectedDate: new Date(),
+      addExpenseDate: new Date(),
       amount: "",
-      selectedDateToView: null
+      selectedDateToView: null,
+      token: null
     };
   }
 
   componentDidMount() {
     const { selectedDate } = this.state;
-    this.props.getExpenses(selectedDate.getFullYear());
+    const { authUser, getExpenses } = this.props;
+    getExpenses(authUser.id, selectedDate.getFullYear());
   }
 
   startExpense = event => {
@@ -65,13 +65,15 @@ class ExpensePage extends React.Component {
   };
 
   addExpense = () => {
-    const { amount, expenseBeingAdded, startDate, expenses } = this.state;
+    const { authUser } = this.props;
+    const { amount, expenseBeingAdded, addExpenseDate } = this.state;
     // take the value of the input and create new expense
     var expense = Object.assign(expenseBeingAdded, {
       fx: null,
       fy: null,
       amount: parseFloat(amount),
-      date: moment(startDate).format("MM/DD/YYYY")
+      date: addExpenseDate,
+      userId: authUser.id
     });
     this.props.addExpense(expense);
     this.setState({
@@ -84,6 +86,7 @@ class ExpensePage extends React.Component {
 
   selectMonth = (prev = true) => {
     const { selectedDate } = this.state;
+    const { authUser, getExpenses } = this.props;
     const monthDiff = prev ? -1 : 1;
     const newDate = moment(selectedDate)
       .add(monthDiff, "months")
@@ -94,7 +97,7 @@ class ExpensePage extends React.Component {
       },
       () => {
         if (selectedDate.getFullYear() !== newDate.getFullYear()) {
-          this.props.getExpenses(newDate.getFullYear());
+          getExpenses(authUser.id, newDate.getFullYear());
         }
       }
     );
@@ -102,7 +105,7 @@ class ExpensePage extends React.Component {
 
   handleDateChange = date => {
     this.setState({
-      startDate: date
+      addExpenseDate: date
     });
   };
 
@@ -113,16 +116,12 @@ class ExpensePage extends React.Component {
   };
 
   render() {
-    if (!isAuthenticated()) {
-      return <Redirect to="/login" />;
-    }
-
     const {
       categories,
       selectedDate,
       expenseBeingAdded,
       amount,
-      startDate,
+      addExpenseDate,
       selectedDateToView
     } = this.state;
 
@@ -131,7 +130,6 @@ class ExpensePage extends React.Component {
     const currentMonthExpenses = expenses.filter(
       d => new Date(d.date).getMonth() === selectedDate.getMonth()
     );
-
     return (
       <Layout page="home">
         <div className="expenses-page">
@@ -151,7 +149,7 @@ class ExpensePage extends React.Component {
                 startExpense={this.startExpense}
                 expenseBeingAdded={expenseBeingAdded}
                 handleAmountChange={this.handleAmountChange}
-                startDate={startDate}
+                startDate={addExpenseDate}
                 handleDateChange={this.handleDateChange}
                 amount={amount}
                 addingExpense={addingExpense}
@@ -194,7 +192,7 @@ class ExpensePage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { auth } = state.authReducer;
+  const { authUser } = state.authReducer;
   const {
     loadingExpenses,
     expenses,
@@ -206,14 +204,14 @@ const mapStateToProps = state => {
     expenses,
     expensesErr,
     addingExpense,
-    auth
+    authUser
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getExpenses: year => {
-      return dispatch(expensesActions.getExpenses(year));
+    getExpenses: (userId, year) => {
+      return dispatch(expensesActions.getExpenses(userId, year));
     },
     addExpense: expense => {
       return dispatch(expensesActions.addExpense(expense));

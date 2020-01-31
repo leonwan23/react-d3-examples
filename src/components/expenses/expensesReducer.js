@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
     case actionTypes.GET_EXPENSES_SUCCESS:
       return Object.assign({}, state, {
         loadingExpenses: false,
-        expenses: action.payload,
+        expenses: action.payload.expenses,
         expensesErr: ""
       });
     case actionTypes.GET_EXPENSES_FAILURE:

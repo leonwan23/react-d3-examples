@@ -1,5 +1,6 @@
 import axios from "axios";
 import { httpConstants } from "../constants/httpConstants";
+import { getJwt } from "../lib/auth";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/";
 
@@ -11,6 +12,19 @@ const axiosInstance = axios.create({
     "Access-Control-Allow-Origin": "*"
   }
 });
+
+axiosInstance.interceptors.request.use(
+  config => {
+    let token = getJwt();
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 axiosInstance.interceptors.response.use(
   response => {
@@ -24,7 +38,7 @@ axiosInstance.interceptors.response.use(
 export const apiRequest = ({ url, body, method }) => {
   return axiosInstance({ method, url, data: JSON.stringify(body) })
     .then(response => {
-      if (response.status !== httpConstants.OK) {
+      if (response.status > httpConstants.ACCEPTED) {
         return Promise.reject(response);
       }
       return response.data;

@@ -1,5 +1,5 @@
-import fakeData from "../../fakeData.json";
-import  {request, success, failure} from '../../utils/redux'
+import { request, success, failure } from "../../utils/redux";
+import { expensesService } from "./expensesService";
 
 export const actionTypes = {
   LOADING_EXPENSES: "LOADING_EXPENSES",
@@ -11,37 +11,34 @@ export const actionTypes = {
   ADD_EXPENSE_FAILURE: "ADD_EXPENSE_FAILURE"
 };
 
-const getExpenses = year => {
-  return async dispatch => {
+const getExpenses = (userId, year) => {
+  return dispatch => {
     dispatch(request(actionTypes.LOADING_EXPENSES));
-    try {
-      const res = await new Promise(function(resolve, reject) {
-        setTimeout(function() {
-          resolve(fakeData.filter(d => new Date(d.date).getFullYear() === year));
-        }, 1000);
-      });
-      return dispatch(success(actionTypes.GET_EXPENSES_SUCCESS, res));
-    } catch (err) {
-      console.log(err);
-      dispatch(failure(actionTypes.GET_EXPENSES_FAILURE, err));
-    }
+    return expensesService.getExpenses(userId, year).then(
+      result => {
+        dispatch(success(actionTypes.GET_EXPENSES_SUCCESS, result));
+      },
+      err => {
+        const { error } = err.data;
+        dispatch(failure(actionTypes.GET_EXPENSES_FAILURE, error));
+      }
+    );
   };
 };
 
 const addExpense = expense => {
-  return async dispatch => {
+  const { name, amount, userId, date } = expense;
+  return dispatch => {
     dispatch(request(actionTypes.ADDING_EXPENSE));
-    try {
-      //   const res = await new Promise(function(resolve, reject) {
-      //     setTimeout(function() {
-      //       resolve(expense);
-      //     }, 1000);
-      //   });
-      return dispatch(success(actionTypes.ADD_EXPENSE_SUCCESS, expense));
-    } catch (err) {
-      console.log(err);
-      dispatch(failure(actionTypes.ADD_EXPENSE_FAILURE, err));
-    }
+    return expensesService.addExpense({ name, amount, userId, date }).then(
+      result => {
+        dispatch(success(actionTypes.ADD_EXPENSE_SUCCESS, expense));
+      },
+      err => {
+        const { error } = err.data;
+        dispatch(failure(actionTypes.ADD_EXPENSE_FAILURE, error));
+      }
+    );
   };
 };
 

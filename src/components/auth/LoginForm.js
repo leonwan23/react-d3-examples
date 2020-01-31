@@ -1,27 +1,36 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useInput } from "../../utils";
 import Spinner from "../common/Spinner";
+import { isAuthenticated } from "../../lib/auth";
+import { Redirect } from "react-router-dom";
 
-export default function LoginForm({
-  toggleView,
-  viewLogin,
-  login,
-  handleChange,
-  username,
-  password,
-  loggingIn,
-  signingUp,
-  loginErr
-}) {
+export default function LoginForm({ toggleView, viewLogin, login }) {
+  const { loginErr, loggingIn, signingUp } = useSelector(
+    state => state.authReducer
+  );
+  const [username, userInput] = useInput({
+    className: "input",
+    placeholder: "Enter username"
+  });
+  const [password, passwordInput] = useInput({
+    className: "input",
+    placeholder: "Enter password",
+    type: "password"
+  });
   const buttonDisabled =
-    username.length < 1 ||
-    username.length < 6 ||
-    password.length < 1 ||
-    password.length < 6 ||
-    loggingIn;
+    username.length < 6 || password.length < 6 || loggingIn;
+  if (isAuthenticated()) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className={"login " + (viewLogin ? "" : "slide-up")}>
       <div className="center">
-        {!loginErr || !viewLogin ? "" : <div className="error-message">{loginErr}</div>}
+        {!loginErr || !viewLogin ? (
+          ""
+        ) : (
+          <div className="error-message">{loginErr}</div>
+        )}
         <h2
           className="form-title"
           id="login"
@@ -31,26 +40,12 @@ export default function LoginForm({
           <span>or</span>Log in
         </h2>
         <div className="form-holder">
-          <input
-            type="text"
-            className="input"
-            placeholder="Username"
-            value={username}
-            name="loginUsername"
-            onChange={handleChange}
-          />
-          <input
-            type="password"
-            className="input"
-            placeholder="Password"
-            value={password}
-            name="loginPassword"
-            onChange={handleChange}
-          />
+          {userInput}
+          {passwordInput}
         </div>
         <button
           className={"submit-btn " + (buttonDisabled ? "disabled" : "")}
-          onClick={login}
+          onClick={() => login(username, password)}
           disabled={buttonDisabled}
         >
           {!loggingIn ? "Log in" : <Spinner />}
