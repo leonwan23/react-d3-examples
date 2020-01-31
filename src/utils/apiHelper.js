@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
   }
 });
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   config => {
     let token = getJwt();
     if (token) {

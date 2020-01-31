@@ -175,7 +175,7 @@ export default class Expenses extends Component {
   mouseOver = d => {
     this.tooltip.style("display", "block");
 
-    var { x, y, name, amount } = d;
+    let { x, y, name, amount } = d;
 
     this.tooltip.attr("transform", "translate(" + [x, y + d.radius + 20] + ")");
     this.tooltip.select(".tooltip-expense-name").html(`<text>${name}</text>`);

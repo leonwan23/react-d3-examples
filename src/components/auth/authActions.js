@@ -1,6 +1,7 @@
 import { request, success, failure } from "../../utils/redux";
 import { authService } from "./authService";
-import { setCookie, removeCookie } from "../../lib/session";
+import { setCookie } from "../../lib/session";
+import { signout } from "../../lib/auth";
 import { authConstants } from "../../constants/authConstants";
 
 export const actionTypes = {
@@ -58,7 +59,7 @@ const signup = (username, password, reenterPassword) => {
 
 const logout = () => {
   return dispatch => {
-    removeCookie(authConstants.USER_ACCESS_TOKEN_KEY);
+    signout();
     return dispatch(success(actionTypes.LOG_OUT));
   };
 };

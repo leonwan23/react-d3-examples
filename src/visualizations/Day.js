@@ -14,6 +14,10 @@ let colorScale = chroma.scale(["#53c3ac", "#f7e883", "#e85178"]);
 
 const daysLabels = moment.weekdaysShort();
 
+function formatDate(date) {
+  return new Date(moment(date).format("MM/DD/YYYY"));
+}
+
 export default class Day extends Component {
   componentDidMount() {
     const { width } = this.props;
@@ -34,8 +38,8 @@ export default class Day extends Component {
     const { selectedDate, expenses } = this.props;
 
     this.totalByDay = expenses.reduce((acc, curr) => {
-      acc[curr.date] = acc[curr.date] || 0;
-      acc[curr.date] += curr.amount;
+      acc[formatDate(curr.date)] = acc[formatDate(curr.date)] || 0;
+      acc[formatDate(curr.date)] += curr.amount;
       return acc;
     }, {});
 
@@ -49,7 +53,7 @@ export default class Day extends Component {
     this.backs = [];
     while (date.getMonth() === selectedDate.getMonth()) {
       this.backs.push({
-        date: new Date(date)
+        date: formatDate(date)
       });
       date.setDate(date.getDate() + 1);
     }
@@ -70,7 +74,7 @@ export default class Day extends Component {
     this.backs.map(back => {
       const { x, y } = this.calculateDayPosition(back.date);
       const match = Object.keys(this.totalByDay).find(day => {
-        return new Date(day).getTime() === back.date.getTime();
+        return formatDate(day).getTime() === formatDate(back.date).getTime();
       });
       const dayTotal = match ? this.totalByDay[match] : 0;
       return Object.assign(back, {
@@ -158,12 +162,12 @@ export default class Day extends Component {
       .text(d => moment(d.date).format("DD MMM"))
       .style("pointer-events", d => {
         const match = Object.keys(this.totalByDay).some(day => {
-          return new Date(day).getTime() === d.date.getTime();
+          return formatDate(day).getTime() === formatDate(d.date).getTime();
         });
         return match ? "all" : "none";
       })
       .on("click", d => {
-        this.props.selectDateToView(d.date)
+        this.props.selectDateToView(d.date);
       });
   };
 
