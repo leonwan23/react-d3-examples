@@ -14,8 +14,7 @@ import MonthLabel from "./MonthLabel";
 import ExpenseForm from "./ExpenseForm";
 
 import { expensesActions } from "./expensesActions";
-import { isAuthenticated } from "../../lib/auth";
-import { Redirect } from "react-router-dom";
+import { getJwt } from "../../lib/auth";
 
 const width = 750;
 const height = 900;
@@ -38,13 +37,16 @@ class ExpensePage extends React.Component {
       selectedDate: new Date(), //current day,
       startDate: new Date(),
       amount: "",
-      selectedDateToView: null
+      selectedDateToView: null,
+      token: null
     };
   }
 
   componentDidMount() {
     const { selectedDate } = this.state;
     this.props.getExpenses(selectedDate.getFullYear());
+    let token = getJwt();
+    this.setState({ token });
   }
 
   startExpense = event => {
@@ -113,10 +115,6 @@ class ExpensePage extends React.Component {
   };
 
   render() {
-    if (!isAuthenticated()) {
-      return <Redirect to="/login" />;
-    }
-
     const {
       categories,
       selectedDate,
@@ -131,7 +129,6 @@ class ExpensePage extends React.Component {
     const currentMonthExpenses = expenses.filter(
       d => new Date(d.date).getMonth() === selectedDate.getMonth()
     );
-
     return (
       <Layout page="home">
         <div className="expenses-page">

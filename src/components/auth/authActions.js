@@ -39,18 +39,20 @@ const signup = (username, password, reenterPassword) => {
     //check passwords match
     if (password !== reenterPassword) {
       return dispatch(
-        failure(actionTypes.SIGNIN_FAILURE, "Passwords don't match")
+        failure(actionTypes.SIGNUP_FAILURE, "Passwords don't match")
+      );
+    } else {
+      return authService.signup(username, password).then(
+        result => {
+          setCookie(authConstants.USER_ACCESS_TOKEN_KEY, result.token);
+          dispatch(success(actionTypes.SIGNUP_SUCCESS, result));
+        },
+        err => {
+          const { error } = err.data;
+          dispatch(failure(actionTypes.SIGNUP_FAILURE, error));
+        }
       );
     }
-    return authService.signup(username, password).then(
-      result => {
-        dispatch(success(actionTypes.SIGNIN_SUCCESS, result));
-      },
-      err => {
-        const { error } = err.data;
-        dispatch(failure(actionTypes.SIGNIN_FAILURE, error));
-      }
-    );
   };
 };
 
