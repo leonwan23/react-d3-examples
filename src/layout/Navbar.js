@@ -28,6 +28,14 @@ class Navbar extends React.Component {
               Home
             </Link>
           </li>
+          <li>
+            <Link
+              to={{ pathname: "/expense" }}
+              className={page === "expense" ? "active" : ""}
+            >
+              Expense
+            </Link>
+          </li>
         </ul>
 
         <div>

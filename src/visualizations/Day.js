@@ -3,6 +3,8 @@ import * as d3 from "d3";
 import moment from "moment";
 import chroma from "chroma-js";
 
+import "./day.scss";
+
 let height = 600;
 const dayWidth = 61;
 const dayHeight = 73;
@@ -47,6 +49,10 @@ export default class Day extends Component {
       total => this.totalByDay[total]
     );
     const amountExtent = d3.extent(amounts);
+    //if only 1 day in month has expense, set lower  bound of amount extent to very small number
+    if (amountExtent[0] === amountExtent[1]) {
+      amountExtent[0] = 0.0001;
+    }
     amountScale.domain(amountExtent);
 
     var date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1); //first day of month
@@ -157,9 +163,10 @@ export default class Day extends Component {
       .transition(t)
       .delay((d, i) => i * 20)
       .attr("fill", d => d.fill);
+
+    this.blocks.select("text").text(d => moment(d.date).format("DD MMM"));
+
     this.blocks
-      .select("text")
-      .text(d => moment(d.date).format("DD MMM"))
       .style("pointer-events", d => {
         const match = Object.keys(this.totalByDay).some(day => {
           return formatDate(day).getTime() === formatDate(d.date).getTime();

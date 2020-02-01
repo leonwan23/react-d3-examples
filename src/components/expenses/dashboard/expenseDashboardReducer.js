@@ -1,4 +1,4 @@
-import { actionTypes } from "./expensesActions";
+import { actionTypes } from "./expenseDashboardActions";
 
 const initialState = {
   loadingExpenses: true,

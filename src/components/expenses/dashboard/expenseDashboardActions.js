@@ -1,5 +1,5 @@
-import { request, success, failure } from "../../utils/redux";
-import { expensesService } from "./expensesService";
+import { request, success, failure } from "../../../utils/redux";
+import { expenseDashboardService } from "./expenseDashboardService";
 
 export const actionTypes = {
   LOADING_EXPENSES: "LOADING_EXPENSES",
@@ -14,7 +14,7 @@ export const actionTypes = {
 const getExpenses = (userId, year) => {
   return dispatch => {
     dispatch(request(actionTypes.LOADING_EXPENSES));
-    return expensesService.getExpenses(userId, year).then(
+    return expenseDashboardService.getExpenses(userId, year).then(
       result => {
         dispatch(success(actionTypes.GET_EXPENSES_SUCCESS, result));
       },
@@ -30,7 +30,7 @@ const addExpense = expense => {
   const { name, amount, userId, date } = expense;
   return dispatch => {
     dispatch(request(actionTypes.ADDING_EXPENSE));
-    return expensesService.addExpense({ name, amount, userId, date }).then(
+    return expenseDashboardService.addExpense({ name, amount, userId, date }).then(
       result => {
         dispatch(success(actionTypes.ADD_EXPENSE_SUCCESS, expense));
       },
@@ -42,7 +42,7 @@ const addExpense = expense => {
   };
 };
 
-export const expensesActions = {
+export const expenseDashboardActions = {
   getExpenses,
   addExpense
 };

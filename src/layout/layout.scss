@@ -6,12 +6,13 @@
   height: $navbar-height;
   width: 100%;
   background: $primary-color;
-  padding: calc(#{$navbar-height}/ 4) 30px 0;
+  padding: 0 30px;
   margin: auto;
   box-shadow: 0 4px 8px -6px rgba(0, 0, 0, 0.25);
   z-index: 99;
   position: fixed;
   top: 0;
+  line-height: $navbar-height;
 
   a {
     color: rgba(255, 255, 255, 0.75);
@@ -41,7 +42,7 @@
 }
 
 .layout-page {
-  padding: calc(#{$navbar-height} + 15px) 15px 15px;
+  padding: calc(#{$navbar-height} + #{$page-padding}) $page-padding $page-padding;
 }
 
 nav ul {
@@ -55,7 +56,6 @@ nav ul li {
 }
 nav ul li a {
   display: block;
-  padding-bottom: calc(#{$navbar-height}/ 4 + 6px);
   text-decoration: none;
   color: #aaa;
   font-weight: 800;

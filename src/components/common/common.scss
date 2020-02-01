@@ -15,7 +15,7 @@ $balls-size: 16px;
   margin: 0 auto;
   width: 100%;
   overflow: visible;
-  background: rgba(0, 0, 0, 0.3);
+  background: $overlay-color;
   z-index: 99;
 }
 

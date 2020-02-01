@@ -77,7 +77,7 @@ export default class Expenses extends Component {
   }
 
   calculateData = () => {
-    const { selectedDate, data, expenseBeingAdded, width } = this.props;
+    const { selectedDate, data, width } = this.props;
     const amountExtent = d3.extent(data, d => d.amount);
     amountScale.domain(amountExtent);
 
@@ -115,17 +115,6 @@ export default class Expenses extends Component {
         fill: "#fff8fa"
       });
     });
-
-    if (expenseBeingAdded.name) {
-      this.expenses.push(
-        Object.assign(expenseBeingAdded, {
-          fx: width / 2,
-          fy: -290,
-          radius: 15,
-          fill: theme.PRIMARY_COLOR
-        })
-      );
-    }
   };
 
   calculateDayPosition(date) {

@@ -1,0 +1,50 @@
+.svg-container {
+    overflow: visible;
+    z-index: -1;
+}
+
+.day-labels {
+    font-family: Dekko;
+    font-weight: 600;
+}
+
+.date-label {
+    font-family: Actor;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.back>rect {
+    &:hover {
+        stroke: #000;
+        stroke-width: 2px;
+        cursor: pointer;
+    }
+}
+
+.back>text {
+    pointer-events: none;
+}
+
+.tooltip {
+    background: #111;
+    opacity: 0.85;
+}
+
+.tooltip-expense-name {
+    padding: 5px 7px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: Actor;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.tooltip-expense-amount {
+    padding: 3px 5px;
+    font-family: Actor;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+}
