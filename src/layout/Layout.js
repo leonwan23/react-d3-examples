@@ -1,14 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 
-export default class Layout extends Component {
-  render() {
-    const { children, page } = this.props;
-    return (
-      <div>
-        <Navbar page={page}/>
-        <div className="layout-page">{children}</div>
-      </div>
-    );
-  }
+export default function Layout({ children, page }) {
+  return (
+    <div>
+      <Navbar page={page} />
+      <div className="layout-page">{children}</div>
+    </div>
+  );
 }

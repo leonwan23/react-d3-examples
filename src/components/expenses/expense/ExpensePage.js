@@ -4,6 +4,7 @@ import moment from "moment";
 
 import Layout from "../../../layout/Layout";
 import PacmanLoader from "../../common/PacmanLoader";
+import ExpenseList from "./ExpenseList";
 
 import { expenseActions } from "./expenseActions";
 
@@ -19,24 +20,19 @@ class ExpensePage extends Component {
       getExpensesByDate(authUser.id, date);
     }
   }
+
   render() {
-    const { loadingExpensesByDate, expensesByDate } = this.props;
+    const { loadingExpensesByDate, deletingExpense } = this.props;
     return (
       <Layout page="expense">
         <div className="expense-page">
-          {loadingExpensesByDate ? (
+          {loadingExpensesByDate || deletingExpense ? (
             <div className="loader-overlay">
               <PacmanLoader />
             </div>
-          ) : expensesByDate.length > 0 ? (
-            expensesByDate.map(expDate => (
-              <div key={expDate.id}>
-                <div>{expDate.name}</div>
-              </div>
-            ))
-          ) : (
-            <div>No expenses</div>
-          )}
+          ) : null}
+
+          <ExpenseList />
         </div>
       </Layout>
     );
@@ -48,13 +44,15 @@ const mapStateToProps = state => {
   const {
     loadingExpensesByDate,
     expensesByDate,
-    expensesByDateErr
+    expensesByDateErr,
+    deletingExpense
   } = state.expenseReducer;
   return {
     authUser,
     loadingExpensesByDate,
     expensesByDate,
-    expensesByDateErr
+    expensesByDateErr,
+    deletingExpense
   };
 };
 

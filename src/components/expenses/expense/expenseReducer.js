@@ -3,7 +3,9 @@ import { actionTypes } from "./expenseActions";
 const initialState = {
   loadingExpensesByDate: true,
   expensesByDate: [],
-  expensesByDateErr: ""
+  expensesByDateErr: "",
+  deletingExpense: false,
+  deleteExpenseErr: ""
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +25,24 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         loadingExpensesByDate: false,
         expensesByDate: [],
+        expensesByDateErr: action.payload
+      });
+
+    case actionTypes.DELETING_EXPENSE:
+      return Object.assign({}, state, {
+        deletingExpense: true
+      });
+    case actionTypes.DELETE_EXPENSE_SUCCESS:
+      return Object.assign({}, state, {
+        deletingExpense: false,
+        expensesByDate: state.expensesByDate.filter(
+          expDate => expDate.id !== action.payload
+        ),
+        expensesByDateErr: ""
+      });
+    case actionTypes.DELETE_EXPENSE_FAILURE:
+      return Object.assign({}, state, {
+        deletingExpense: false,
         expensesByDateErr: action.payload
       });
     default:

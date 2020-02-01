@@ -13,6 +13,7 @@
   position: fixed;
   top: 0;
   line-height: $navbar-height;
+  overflow: hidden;
 
   a {
     color: rgba(255, 255, 255, 0.75);
@@ -51,9 +52,11 @@ nav ul {
   margin: 0;
   padding: 0;
 }
+
 nav ul li {
   display: inline-block;
 }
+
 nav ul li a {
   display: block;
   text-decoration: none;
@@ -63,11 +66,13 @@ nav ul li a {
   margin: 0 10px;
   font-family: Actor;
 }
+
 nav ul li a,
 nav ul li a:after,
 nav ul li a:before {
   transition: all 0.25s;
 }
+
 nav ul li a:hover {
   color: #fff;
 }
@@ -76,6 +81,7 @@ nav ul li a:hover {
 nav ul li a {
   position: relative;
 }
+
 nav ul li a:after {
   position: absolute;
   bottom: 0;
@@ -88,16 +94,16 @@ nav ul li a:after {
   background: #fff;
   height: 3px;
 }
+
 nav ul li a:hover:after {
   width: 100%;
 }
-
 
 nav.navbar ul li .active {
   pointer-events: none;
   color: #fff;
 
-  &:after{
+  &:after {
     width: 100%;
     position: absolute;
     bottom: 0;
