@@ -83,7 +83,7 @@ class ExpenseDashboard extends React.Component {
   selectDateToView = date => {
     this.props.history.push({
       pathname: "/expense",
-      date
+      date: new Date(date)
     });
   };
 

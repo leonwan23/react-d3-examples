@@ -14,11 +14,16 @@
     font-size: 12px;
 }
 
-.back>rect {
-    &:hover {
+.back {
+    &:hover>rect {
         stroke: #000;
         stroke-width: 2px;
         cursor: pointer;
+    }
+
+    &:hover>text {
+        font-size: 13px;
+        font-weight: 900;
     }
 }
 

@@ -1,13 +1,18 @@
 import React from "react";
 
-export default function Spinner({ radius, color }) {
+export default function Spinner({ radius, color, margin }) {
   const spinnerColor = color ? color : "#fff";
-  const width = radius || "20px";
-  const height = radius || "20px";
+  const spinnerMargin = margin || "auto";
+  const spinnerRadius = radius ? radius + "px" : "20px";
   return (
     <div
       className="spinner"
-      style={{ borderTopColor: spinnerColor, width, height }}
+      style={{
+        borderTopColor: spinnerColor,
+        width: spinnerRadius,
+        height: spinnerRadius,
+        margin: spinnerMargin
+      }}
     ></div>
   );
 }

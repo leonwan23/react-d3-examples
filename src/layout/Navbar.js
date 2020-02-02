@@ -46,7 +46,7 @@ export default function Navbar({ page }) {
       <div>
         <span className="navbar-label">Welcome {username}</span>
         <span className="separator"></span>
-        <a onClick={() => dispatch(authActions.logout())}> Logout </a>
+        <button onClick={() => dispatch(authActions.logout())}> Logout </button>
       </div>
     </nav>
   );

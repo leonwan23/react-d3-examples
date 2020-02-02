@@ -104,10 +104,8 @@ export default class Day extends Component {
   }
 
   renderDayLabels = () => {
-    const t = d3.transition().duration(500);
     this.labels = this.container.selectAll(".day-labels").data(daysLabels);
-
-    const enter = this.labels
+    this.labels
       .enter()
       .append("text")
       .attr("class", "day-labels")

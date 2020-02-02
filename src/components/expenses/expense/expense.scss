@@ -4,4 +4,62 @@
     width: $page-width;
     height: $page-height;
     margin: auto;
+
+    //overwrite react datepicker style
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container,
+  .react-datepicker__input-container input {
+    display: block;
+    width: 100%;
+  }
+
+  .react-datepicker__input-container input {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    padding: 5px 30px;
+    width: 200px;
+    margin: 10px auto;
+    background: #fff;
+    color: black;
+    border: none;
+    border: 1px solid black;
+    border-radius: 6px;
+    outline: none;
+    font-family: Actor;
+  }
+
+  .react-datepicker-popper {
+    transform: translate3d(calc(#{$page-width} - 30px), 110px, 0px) !important;
+  }
+}
+
+.expense-list-row {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+
+    &:hover>.delete-expense {
+        visibility: visible;
+        transform: translateX(-10px);
+    }
+}
+
+.expense-label {
+    font-family: Dekko;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.delete-expense {
+    visibility: hidden;
+    cursor: pointer;
+    color: #ff6961;
+    font-size: 18px;
+    transform: translateX(20px);
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+        color: darken(#ff6961, 20%);
+    }
 }

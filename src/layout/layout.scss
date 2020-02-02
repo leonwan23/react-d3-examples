@@ -28,6 +28,23 @@
     }
   }
 
+  button{
+    background: none;
+    outline: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: Actor;
+    font-size: 16px;
+
+    &:hover {
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
   .navbar-label {
     font-weight: 800;
     text-transform: uppercase;

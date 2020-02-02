@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 
-import { theme } from "../constants/theme";
-
 let height = 600;
 const dayHeight = 73;
 const radius = 5;
@@ -77,7 +75,7 @@ export default class Expenses extends Component {
   }
 
   calculateData = () => {
-    const { selectedDate, data, width } = this.props;
+    const { selectedDate, data } = this.props;
     const amountExtent = d3.extent(data, d => d.amount);
     amountScale.domain(amountExtent);
 

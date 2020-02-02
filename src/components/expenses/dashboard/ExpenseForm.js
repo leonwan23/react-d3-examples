@@ -42,6 +42,7 @@ export default function ExpenseForm({ addExpense, closeForm }) {
             selected={date}
             onChange={setDate}
             dateFormat="dd/MM/yyyy"
+            todayButton="Go to Today"
           />
         </div>
         <div className="modal-footer">
@@ -52,7 +53,7 @@ export default function ExpenseForm({ addExpense, closeForm }) {
             onClick={() => addExpense(name, amount, date)}
             disabled={buttonDisabled}
           >
-            {!addingExpense ? "Add" : <Spinner />}
+            {!addingExpense ? "Add" : <Spinner radius={15}/>}
           </button>
         </div>
       </div>

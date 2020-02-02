@@ -2,12 +2,36 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { expenseActions } from "./expenseActions";
 
+import Spinner from "../../common/Spinner";
+import { theme } from "../../../constants/theme";
+
 function Row({ expense }) {
+  const { deletingExpense } = useSelector(state => state.expenseReducer);
   const dispatch = useDispatch();
-  const { id, name } = expense;
+  let { id, name } = expense;
+  if (deletingExpense === id) name = "Deleting...";
   return (
-    <div onClick={() => dispatch(expenseActions.deleteExpense(id))}>
-      <div>{name}</div>
+    <div
+      className="expense-list-row"
+      style={{ pointerEvents: deletingExpense ? "none" : "all" }}
+    >
+      <div className="expense-label">
+        {deletingExpense !== id ? null : (
+          <Spinner
+            color={theme.PRIMARY_COLOR}
+            margin={"5px 10px 3px 5px"}
+            radius={15}
+          />
+        )}
+        <span>{name}</span>
+      </div>
+      <span
+        className="delete-expense"
+        onClick={() => dispatch(expenseActions.deleteExpense(id))}
+        title="Delete expense"
+      >
+        &times;
+      </span>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
 
     case actionTypes.DELETING_EXPENSE:
       return Object.assign({}, state, {
-        deletingExpense: true
+        deletingExpense: action.param
       });
     case actionTypes.DELETE_EXPENSE_SUCCESS:
       return Object.assign({}, state, {

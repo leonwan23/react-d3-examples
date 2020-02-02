@@ -13,7 +13,7 @@ function UserRow({ user }) {
   const { id, username } = user;
   const deleteUser = useCallback(() => {
     dispatch(userActions.deleteUser(id));
-  }, [id]);
+  }, [id, dispatch]);
   return <div onClick={deleteUser}>{username}</div>;
 }
 
@@ -31,7 +31,7 @@ export default function UserPage() {
 
   useEffect(() => {
     dispatch(userActions.getUsers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout page="users">

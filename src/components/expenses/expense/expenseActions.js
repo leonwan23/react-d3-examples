@@ -26,7 +26,7 @@ const getExpensesByDate = (userId, date) => {
 
 const deleteExpense = id => {
   return async dispatch => {
-    dispatch(request(actionTypes.DELETING_EXPENSE));
+    dispatch(request(actionTypes.DELETING_EXPENSE, id));
     return expenseService.deleteExpense(id).then(
       result => {
         dispatch(success(actionTypes.DELETE_EXPENSE_SUCCESS, id));
