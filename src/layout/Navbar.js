@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import { authActions } from "../components/auth/authActions";
+import { authConstants } from "../constants/authConstants";
 import { isAuthenticated } from "../lib/auth";
 
 import "./layout.scss";
@@ -30,6 +31,16 @@ export default function Navbar({ page }) {
             Expense
           </Link>
         </li>
+        {authUser && authUser.role === authConstants.ROLES.SUPERUSER ? (
+          <li>
+            <Link
+              to={{ pathname: "/users" }}
+              className={page === "users" ? "active" : ""}
+            >
+              Users
+            </Link>
+          </li>
+        ) : null}
       </ul>
 
       <div>

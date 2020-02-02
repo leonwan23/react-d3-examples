@@ -38,12 +38,12 @@ export default (state = initialState, action) => {
         expensesByDate: state.expensesByDate.filter(
           expDate => expDate.id !== action.payload
         ),
-        expensesByDateErr: ""
+        deleteExpenseErr: ""
       });
     case actionTypes.DELETE_EXPENSE_FAILURE:
       return Object.assign({}, state, {
         deletingExpense: false,
-        expensesByDateErr: action.payload
+        deleteExpenseErr: action.payload
       });
     default:
       return state;

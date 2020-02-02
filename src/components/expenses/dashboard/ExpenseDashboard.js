@@ -61,8 +61,6 @@ class ExpenseDashboard extends React.Component {
     this.props.addExpense(expense).then(() => this.toggleExpenseForm());
   };
 
-  deleteExpense = category => {};
-
   selectMonth = (prev = true) => {
     const { selectedDate } = this.state;
     const { authUser, getExpenses } = this.props;

@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./components/auth/authReducer";
 import expenseDashboardReducer from "./components/expenses/dashboard/expenseDashboardReducer";
 import expenseReducer from "./components/expenses/expense/expenseReducer";
+import userReducer from "./components/users/userReducer";
 
 const persistConfig = {
   key: "root",
@@ -15,7 +16,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   authReducer,
   expenseDashboardReducer,
-  expenseReducer
+  expenseReducer,
+  userReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
