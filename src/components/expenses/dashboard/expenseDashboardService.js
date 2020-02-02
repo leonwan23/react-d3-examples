@@ -1,7 +1,7 @@
-import { apiRequest } from "../../utils/apiHelper";
-import { httpConstants } from "../../constants/httpConstants";
+import { apiRequest } from "../../../utils/apiHelper";
+import { httpConstants } from "../../../constants/httpConstants";
 
-export const expensesService = {
+export const expenseDashboardService = {
   getExpenses,
   addExpense
 };

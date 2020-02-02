@@ -3,8 +3,10 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import expensesReducer from "./components/expenses/expensesReducer";
 import authReducer from "./components/auth/authReducer";
+import expenseDashboardReducer from "./components/expenses/dashboard/expenseDashboardReducer";
+import expenseReducer from "./components/expenses/expense/expenseReducer";
+import userReducer from "./components/users/userReducer";
 
 const persistConfig = {
   key: "root",
@@ -12,8 +14,10 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  expensesReducer,
-  authReducer
+  authReducer,
+  expenseDashboardReducer,
+  expenseReducer,
+  userReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
 export const apiRequest = ({ url, body, method }) => {
   return axiosInstance({ method, url, data: JSON.stringify(body) })
     .then(response => {
-      if (response.status > httpConstants.ACCEPTED) {
+      if (response.status > httpConstants.NO_CONTENT_SUCCESS) {
         return Promise.reject(response);
       }
       return response.data;

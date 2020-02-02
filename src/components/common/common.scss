@@ -15,7 +15,7 @@ $balls-size: 16px;
   margin: 0 auto;
   width: 100%;
   overflow: visible;
-  background: rgba(0, 0, 0, 0.3);
+  background: $overlay-color;
   z-index: 99;
 }
 
@@ -364,7 +364,6 @@ $balls-size: 16px;
 //spinner loader
 .spinner {
   border-radius: 50%;
-  margin: auto;
 
   border-top: 2px solid;
   border-right: 2px solid transparent;

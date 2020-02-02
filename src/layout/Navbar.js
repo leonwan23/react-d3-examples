@@ -1,58 +1,53 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import { authActions } from "../components/auth/authActions";
+import { authConstants } from "../constants/authConstants";
 import { isAuthenticated } from "../lib/auth";
 
 import "./layout.scss";
 
-class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
+export default function Navbar({ page }) {
+  const { authUser } = useSelector(state => state.authReducer);
+  const dispatch = useDispatch();
+  const username = authUser ? authUser.username : "User";
+  if (!isAuthenticated()) {
+    return <Redirect to="/login" />;
   }
-  logout = () => {
-    this.props.logout();
-  };
-  render() {
-    if (!isAuthenticated()) {
-      return <Redirect to="/login" />;
-    }
-    const { page, authUser } = this.props;
-    const username = authUser ? authUser.username : "User";
-    return (
-      <nav className="navbar">
-        <ul>
+  return (
+    <nav className="navbar">
+      <ul>
+        <li>
+          <Link to="/" className={page === "home" ? "active" : ""}>
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            to={{ pathname: "/expense" }}
+            className={page === "expense" ? "active" : ""}
+          >
+            Expense
+          </Link>
+        </li>
+        {authUser && authUser.role === authConstants.ROLES.SUPERUSER ? (
           <li>
-            <Link to="/" className={page === "home" ? "active" : ""}>
-              Home
+            <Link
+              to={{ pathname: "/users" }}
+              className={page === "users" ? "active" : ""}
+            >
+              Users
             </Link>
           </li>
-        </ul>
+        ) : null}
+      </ul>
 
-        <div>
-          <span className="navbar-label">Welcome {username}</span>
-          <span className="separator"></span>
-          <a onClick={this.logout}> Logout </a>
-        </div>
-      </nav>
-    );
-  }
+      <div>
+        <span className="navbar-label">Welcome {username}</span>
+        <span className="separator"></span>
+        <button onClick={() => dispatch(authActions.logout())}> Logout </button>
+      </div>
+    </nav>
+  );
 }
-
-const mapStateToProps = state => {
-  const { authUser } = state.authReducer;
-  return {
-    authUser
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => {
-      return dispatch(authActions.logout());
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
