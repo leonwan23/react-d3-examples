@@ -6,11 +6,16 @@ import Layout from "../../../layout/Layout";
 import PacmanLoader from "../../common/PacmanLoader";
 import ExpenseList from "./ExpenseList";
 import DatePicker from "react-datepicker";
+import RadialChart from "../../../visualizations/RadialChart";
 
 import { expenseActions } from "./expenseActions";
 
+import { calendarIcon } from "../../../static/icons";
 import "./expense.scss";
 import "react-datepicker/dist/react-datepicker.css";
+
+const width = 750;
+const height = 500;
 
 class ExpensePage extends Component {
   constructor(props) {
@@ -46,7 +51,7 @@ class ExpensePage extends Component {
   };
 
   render() {
-    const { loadingExpensesByDate } = this.props;
+    const { loadingExpensesByDate, expensesByDate } = this.props;
     const { currentDate } = this.state;
     return (
       <Layout page="expense">
@@ -56,12 +61,23 @@ class ExpensePage extends Component {
               <PacmanLoader />
             </div>
           ) : null}
-          <DatePicker
-            selected={currentDate}
-            onChange={this.handleSelectDate}
-            dateFormat="dd/MM/yyyy"
-            todayButton="Go to Today"
-          />
+          <label className="date-picker">
+            <i className="icon">{calendarIcon}</i>
+            <DatePicker
+              selected={currentDate}
+              onChange={this.handleSelectDate}
+              dateFormat="dd/MM/yyyy"
+              todayButton="Go to Today"
+            />
+          </label>
+          <svg
+            className="expense-svg-container"
+            width={width}
+            height={height}
+            viewBox={`0 0 ${width} ${height}`}
+          >
+            <RadialChart data={expensesByDate} width={width} />
+          </svg>
           <ExpenseList />
         </div>
       </Layout>
