@@ -5,3 +5,10 @@
     height: $page-height;
     margin: auto;
 }
+
+.user-row-label{
+    &:hover{
+        text-decoration: line-through;
+        cursor: pointer;
+    }
+}

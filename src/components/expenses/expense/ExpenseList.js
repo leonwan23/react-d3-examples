@@ -8,7 +8,7 @@ import { theme } from "../../../constants/theme";
 function Row({ expense }) {
   const { deletingExpense } = useSelector(state => state.expenseReducer);
   const dispatch = useDispatch();
-  let { id, name } = expense;
+  let { id, name, amount } = expense;
   if (deletingExpense === id) name = "Deleting...";
   return (
     <div
@@ -24,6 +24,7 @@ function Row({ expense }) {
           />
         )}
         <span>{name}</span>
+        <span style={{marginLeft: "20px"}}>${amount.toFixed(2)}</span>
       </div>
       <span
         className="delete-expense"

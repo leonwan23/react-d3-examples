@@ -1,37 +1,54 @@
 @import "../../common/variables.scss";
 
+.expense-svg-container{
+    overflow: visible;
+}
+
 .expense-page {
     width: $page-width;
     height: $page-height;
     margin: auto;
 
-    //overwrite react datepicker style
-  .react-datepicker-wrapper,
-  .react-datepicker__input-container,
-  .react-datepicker__input-container input {
-    display: block;
-    width: 100%;
-  }
+    .date-picker {
+        position: relative;
+        cursor: pointer;
 
-  .react-datepicker__input-container input {
-    font-size: 14px;
-    text-align: center;
-    display: block;
-    padding: 5px 30px;
-    width: 200px;
-    margin: 10px auto;
-    background: #fff;
-    color: black;
-    border: none;
-    border: 1px solid black;
-    border-radius: 6px;
-    outline: none;
-    font-family: Actor;
-  }
+        .icon {
+            position: absolute;
+            top: 6px;
+            left: calc(#{$page-width} / 2 - 95px);
+            z-index: 2;
+        }
 
-  .react-datepicker-popper {
-    transform: translate3d(calc(#{$page-width} - 30px), 110px, 0px) !important;
-  }
+        //overwrite react datepicker style
+    .react-datepicker-wrapper,
+    .react-datepicker__input-container,
+    .react-datepicker__input-container input {
+        display: block;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .react-datepicker__input-container input {
+        font-size: 14px;
+        text-align: center;
+        display: block;
+        padding: 5px 30px;
+        width: 200px;
+        margin: 10px auto;
+        background: #fff;
+        color: black;
+        border: none;
+        border: 1px solid black;
+        border-radius: 6px;
+        outline: none;
+        font-family: Actor;
+    }
+
+    .react-datepicker-popper {
+        transform: translate3d(calc(#{$page-width} / 2 - 100px), 30px, 0px) !important;
+    }
+    }
 }
 
 .expense-list-row {

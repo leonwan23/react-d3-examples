@@ -7,6 +7,11 @@ $add-button-size:50px;
 $input-width: 350px;
 $font: Dekko;
 
+.svg-container {
+  overflow: visible;
+  z-index: -1;
+}
+
 .expense-dashboard-page {
   width: $page-width;
   margin: auto;

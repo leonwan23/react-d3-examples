@@ -14,7 +14,7 @@ function UserRow({ user }) {
   const deleteUser = useCallback(() => {
     dispatch(userActions.deleteUser(id));
   }, [id, dispatch]);
-  return <div onClick={deleteUser}>{username}</div>;
+  return <div onClick={deleteUser} className="user-row-label">{username}</div>;
 }
 
 function UserList({ userList }) {

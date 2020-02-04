@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 import chroma from "chroma-js";
+import {theme} from '../constants/theme'
 
 import "./day.scss";
 
@@ -12,7 +13,7 @@ const dayHeight = 73;
 let xScale = d3.scaleLinear().domain([0, 6]);
 let yScale = d3.scaleLinear();
 var amountScale = d3.scaleLog();
-let colorScale = chroma.scale(["#53c3ac", "#f7e883", "#e85178"]);
+let colorScale = chroma.scale([theme.THEME_GREEN, theme.THEME_YELLOW, theme.THEME_RED]);
 
 const daysLabels = moment.weekdaysShort();
 
@@ -164,16 +165,9 @@ export default class Day extends Component {
 
     this.blocks.select("text").text(d => moment(d.date).format("DD MMM"));
 
-    this.blocks
-      .style("pointer-events", d => {
-        const match = Object.keys(this.totalByDay).some(day => {
-          return formatDate(day).getTime() === formatDate(d.date).getTime();
-        });
-        return match ? "all" : "none";
-      })
-      .on("click", d => {
-        this.props.selectDateToView(d.date);
-      });
+    this.blocks.on("click", d => {
+      this.props.selectDateToView(d.date);
+    });
   };
 
   render() {
