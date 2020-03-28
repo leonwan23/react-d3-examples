@@ -51,14 +51,14 @@ class ExpenseDashboard extends React.Component {
   }
 
   addExpense = (name, amount, date) => {
-    const { authUser } = this.props;
+    const { authUser, addExpense } = this.props;
     var expense = {
       name,
       amount: parseFloat(amount),
       date,
       userId: authUser.id
     };
-    this.props.addExpense(expense).then(() => this.toggleExpenseForm());
+    addExpense(expense).then(() => this.toggleExpenseForm());
   };
 
   selectMonth = (prev = true) => {

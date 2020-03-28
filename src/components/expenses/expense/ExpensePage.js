@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import Layout from "../../../layout/Layout";
 import PacmanLoader from "../../common/PacmanLoader";
+import Spinner from "../../common/Spinner";
 import ExpenseList from "./ExpenseList";
 import DatePicker from "react-datepicker";
 import RadialChart from "../../../visualizations/RadialChart";
 
 import { expenseActions } from "./expenseActions";
+import { useInput } from "../../../utils";
+import { checkValidExpenseForm } from "../../../utils/validation";
 
 import { calendarIcon } from "../../../static/icons";
 import "./expense.scss";
@@ -16,6 +19,41 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const width = 750;
 const height = 500;
+const dateFormat = "MM/DD/YYYY";
+
+function AddExpense({ date }) {
+  const { addingExpenseByDate } = useSelector(state => state.expenseReducer);
+  const { authUser } = useSelector(state => state.authReducer);
+  const dispatch = useDispatch();
+  const [name, nameInput] = useInput({
+    placeholder: "Item",
+    className: "name"
+  });
+  const [amount, amountInput] = useInput({
+    placeholder: "Amount",
+    className: "amount"
+  });
+  const buttonDisabled =
+    checkValidExpenseForm(name, amount) || addingExpenseByDate;
+  const expense = { name, amount, userId: authUser.id, date };
+  function addExpense() {
+    dispatch(expenseActions.addExpense(expense));
+  }
+  return (
+    <form className="add-expense-container" onSubmit={addExpense}>
+      {nameInput}
+      <span className="dollar-sign">$</span>
+      {amountInput}
+      <button
+        disabled={buttonDisabled}
+        className={buttonDisabled ? "disabled" : ""}
+        onClick={addExpense}
+      >
+        {!addingExpenseByDate ? "Add" : <Spinner radius={10} />}
+      </button>
+    </form>
+  );
+}
 
 class ExpensePage extends Component {
   constructor(props) {
@@ -27,13 +65,12 @@ class ExpensePage extends Component {
 
   componentDidMount() {
     const { getExpensesByDate, authUser, location } = this.props;
-    let date = location.date
-      ? new Date(moment(location.date).format("YYYY-MM-DD"))
-      : moment().toDate();
+    let date = location.date ? moment(location.date).local() : moment().local();
     if (date && authUser) {
-      getExpensesByDate(authUser.id, date);
+      console.log(date.format(dateFormat), new Date(date.format(dateFormat)));
+      getExpensesByDate(authUser.id, date.format(dateFormat));
       this.setState({
-        currentDate: date
+        currentDate: date.toDate()
       });
     }
   }
@@ -45,7 +82,7 @@ class ExpensePage extends Component {
         currentDate: date
       },
       () => {
-        getExpensesByDate(authUser.id, moment(date).format("YYYY/MM/DD"));
+        getExpensesByDate(authUser.id, moment(date).format(dateFormat));
       }
     );
   };
@@ -70,6 +107,7 @@ class ExpensePage extends Component {
               todayButton="Go to Today"
             />
           </label>
+          <AddExpense date={currentDate} />
           <svg
             className="expense-svg-container"
             width={width}

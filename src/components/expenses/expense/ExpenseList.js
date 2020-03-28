@@ -14,6 +14,7 @@ function Row({ expense }) {
     <div
       className="expense-list-row"
       style={{ pointerEvents: deletingExpense ? "none" : "all" }}
+      key={id}
     >
       <div className="expense-label">
         {deletingExpense !== id ? null : (
@@ -24,7 +25,9 @@ function Row({ expense }) {
           />
         )}
         <span>{name}</span>
-        <span style={{marginLeft: "20px"}}>${amount.toFixed(2)}</span>
+        <span style={{ marginLeft: "20px" }}>
+          ${parseFloat(amount).toFixed(2)}
+        </span>
       </div>
       <span
         className="delete-expense"

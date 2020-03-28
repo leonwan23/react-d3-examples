@@ -35,7 +35,10 @@ export default function SignupForm({ toggleView, viewLogin, signup }) {
     return <Redirect to="/" />;
   }
   return (
-    <div className={signUpFormClass}>
+    <form
+      className={signUpFormClass}
+      onSubmit={() => signup(username, password, reenterPassword)}
+    >
       {!signupErr || viewLogin ? (
         ""
       ) : (
@@ -68,6 +71,6 @@ export default function SignupForm({ toggleView, viewLogin, signup }) {
       >
         {!signingUp ? "Sign up" : <Spinner color={theme.PRIMARY_COLOR} />}
       </button>
-    </div>
+    </form>
   );
 }

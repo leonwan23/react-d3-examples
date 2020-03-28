@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
 import moment from "moment";
+import './expense.scss'
 
 let height = 600;
 const dayHeight = 73;
@@ -42,18 +43,23 @@ export default class Expenses extends Component {
 
     this.container = d3.select("#expenses-container").append("g");
 
-    this.tooltip = d3.select("#expenses-container").append("g");
-    this.tooltip
-      .append("foreignObject")
+    this.tooltip = d3
+      .select("svg")
+      .append("div")
       .attr("class", "tooltip")
-      .append("xhtml:div")
-      .append("div")
-      .attr("class", "tooltip-expense-name");
+      .style("display", "block");
+    // this.tooltip = d3.select("#expenses-container").append("g");
+    // this.tooltip
+    //   .append("foreignObject")
+    //   .attr("class", "tooltip")
+    //   .append("xhtml:div")
+    //   .append("div")
+    //   .attr("class", "tooltip-expense-name");
 
-    this.tooltip
-      .select("div")
-      .append("div")
-      .attr("class", "tooltip-expense-amount");
+    // this.tooltip
+    //   .select("div")
+    //   .append("div")
+    //   .attr("class", "tooltip-expense-amount");
 
     this.calculateData();
     this.renderCircles();
@@ -160,43 +166,48 @@ export default class Expenses extends Component {
   };
 
   mouseOver = d => {
-    this.tooltip.style("display", "block");
-
+    const { width } = this.props;
+    this.tooltip.style("display", "inline-block");
+    console.log(d, width);
     let { x, y, name, amount } = d;
 
-    this.tooltip.attr("transform", "translate(" + [x, y + d.radius + 20] + ")");
-    this.tooltip.select(".tooltip-expense-name").html(`<text>${name}</text>`);
+    // this.tooltip.attr("transform", "translate(" + [x, y + d.radius + 20] + ")");
+    // this.tooltip.select(".tooltip-expense-name").html(`<text>${name}</text>`);
+    // this.tooltip
+    //   .select(".tooltip-expense-amount")
+    //   .html(`<text>$${amount.toFixed(2)}</text>`);
+    // this.tooltip
+    //   .select("text")
+    //   .attr("text-anchor", "middle")
+    //   .style("pointer-events", "none");
+    // var width1 = this.tooltip
+    //   .select(".tooltip-expense-name")
+    //   .select("text")
+    //   .node()
+    //   .getBoundingClientRect().width;
+    // var width2 = this.tooltip
+    //   .select(".tooltip-expense-amount")
+    //   .select("text")
+    //   .node()
+    //   .getBoundingClientRect().width;
+    // var height1 = this.tooltip
+    //   .select(".tooltip-expense-name")
+    //   .select("text")
+    //   .node()
+    //   .getBoundingClientRect().height;
+    // var height2 = this.tooltip
+    //   .select(".tooltip-expense-amount")
+    //   .select("text")
+    //   .node()
+    //   .getBoundingClientRect().height;
+    // this.tooltip
+    //   .select("foreignObject")
+    //   .attr("width", Math.max(width1, width2) + 10)
+    //   .attr("height", height1 + height2 + d.radius + 10);
     this.tooltip
-      .select(".tooltip-expense-amount")
-      .html(`<text>$${amount.toFixed(2)}</text>`);
-    this.tooltip
-      .select("text")
-      .attr("text-anchor", "middle")
-      .style("pointer-events", "none");
-    var width1 = this.tooltip
-      .select(".tooltip-expense-name")
-      .select("text")
-      .node()
-      .getBoundingClientRect().width;
-    var width2 = this.tooltip
-      .select(".tooltip-expense-amount")
-      .select("text")
-      .node()
-      .getBoundingClientRect().width;
-    var height1 = this.tooltip
-      .select(".tooltip-expense-name")
-      .select("text")
-      .node()
-      .getBoundingClientRect().height;
-    var height2 = this.tooltip
-      .select(".tooltip-expense-amount")
-      .select("text")
-      .node()
-      .getBoundingClientRect().height;
-    this.tooltip
-      .select("foreignObject")
-      .attr("width", Math.max(width1, width2) + 10)
-      .attr("height", height1 + height2 + d.radius + 10);
+      .html("<span>name</span>" + "<br/>" + "amount")
+      .style("left", d3.event.pageX - 100 + "px")
+      .style("top", d3.event.pageY - 28 + "px");
   };
 
   render() {
