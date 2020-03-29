@@ -134,7 +134,7 @@ class ExpensePage extends Component {
                 height={height}
                 viewBox={`0 0 ${width} ${height}`}
               >
-                <Total total={total} size={20} />
+                <Total total={total} size={20} width={width} height={height} />
                 <RadialChart data={expensesByDate} width={width} />
               </svg>
               <ExpenseList />
