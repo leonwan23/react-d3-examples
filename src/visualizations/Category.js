@@ -2,19 +2,13 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import chroma from "chroma-js";
 
-const grey = "rgba(232, 236, 241, 1)";
-
-const colorScale = chroma.scale(["#53c3ac", "#f7e883", "#e85178"]);
 const radius = 50;
 
 const simulation = d3
   .forceSimulation()
   .alphaDecay(0.001)
   .velocityDecay(0.3)
-  .force(
-    "collide",
-    d3.forceCollide(d => d.radius + 10)
-  )
+  .force("collide", d3.forceCollide(radius + 5))
   .force(
     "x",
     d3.forceX(d => d.focusX)
@@ -26,7 +20,35 @@ const simulation = d3
   .stop();
 const drag = d3.drag();
 
-export default class Bubble extends Component {
+function lightOrDark(color) {
+  var r, g, b, hsp;
+
+  if (color.match(/^rgb/)) {
+    // If HEX --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  } else {
+    // If RGB --> Convert it to HEX: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+  // Using the HSP value, light if true, dark if false
+  return hsp > 127.5 ? "#000" : "#fff";
+}
+
+export default class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -67,8 +89,7 @@ export default class Bubble extends Component {
     this.data.map(d => {
       return Object.assign(d, {
         focusX: width / 2,
-        focusY: height / 8,
-        radius
+        focusY: height / 2
       });
     });
 
@@ -94,15 +115,16 @@ export default class Bubble extends Component {
     enter
       .append("circle")
       .attr("r", radius)
-      .attr("fill", grey)
+      .attr("fill", d => d.color)
       .attr("stroke-width", 1)
-      .attr("stroke", chroma(grey).darken())
+      .attr("stroke", d => chroma(d.color).darken())
       .call(drag);
     enter
       .append("text")
       .attr("text-anchor", "middle")
       .attr("dy", ".35em")
       .attr("font-size", 14)
+      .attr("fill", d => lightOrDark(d.color))
       .style("pointer-events", "none");
 
     //enter + update

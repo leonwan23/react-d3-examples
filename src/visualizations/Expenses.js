@@ -44,7 +44,7 @@ export default class Expenses extends Component {
     this.container = d3.select("#expenses-container").append("g");
 
     this.tooltip = d3
-      .select("svg")
+      .select(".svg-container")
       .append("div")
       .attr("class", "tooltip")
       .style("display", "block");
@@ -151,7 +151,7 @@ export default class Expenses extends Component {
       .append("circle")
       .attr("class", "expenses")
       .on("mouseover", this.mouseOver)
-      .on("mouseleave", () => this.tooltip.style("display", "none"));
+      // .on("mouseleave", () => this.tooltip.style("display", "none"));
 
     //enter + update
     this.circles = enter.merge(this.circles);

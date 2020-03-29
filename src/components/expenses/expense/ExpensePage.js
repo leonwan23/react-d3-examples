@@ -7,7 +7,6 @@ import PacmanLoader from "../../common/PacmanLoader";
 import Spinner from "../../common/Spinner";
 import ExpenseList from "./ExpenseList";
 import DatePicker from "react-datepicker";
-import RadialChart from "../../../visualizations/RadialChart";
 
 import { expenseActions } from "./expenseActions";
 import { useInput } from "../../../utils";
@@ -16,6 +15,9 @@ import { checkValidExpenseForm } from "../../../utils/validation";
 import { calendarIcon } from "../../../static/icons";
 import "./expense.scss";
 import "react-datepicker/dist/react-datepicker.css";
+
+import Total from "../../../visualizations/Total";
+import RadialChart from "../../../visualizations/RadialChart";
 
 const width = 750;
 const height = 500;
@@ -59,15 +61,23 @@ class ExpensePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: new Date()
+      currentDate: moment()
+        .local()
+        .endOf("day")
+        .toDate()
     };
   }
 
   componentDidMount() {
     const { getExpensesByDate, authUser, location } = this.props;
-    let date = location.date ? moment(location.date).local() : moment().local();
+    let date = location.date
+      ? moment(location.date)
+          .local()
+          .endOf("day")
+      : moment()
+          .local()
+          .endOf("day");
     if (date && authUser) {
-      console.log(date.format(dateFormat), new Date(date.format(dateFormat)));
       getExpensesByDate(authUser.id, date.format(dateFormat));
       this.setState({
         currentDate: date.toDate()
@@ -87,36 +97,49 @@ class ExpensePage extends Component {
     );
   };
 
+  getTotalExpense = () => {
+    const { expensesByDate } = this.props;
+    const total = !expensesByDate.length
+      ? 0
+      : expensesByDate.reduce((acc, curr) => {
+          return curr.amount + acc;
+        }, 0);
+    return total;
+  };
+
   render() {
     const { loadingExpensesByDate, expensesByDate } = this.props;
     const { currentDate } = this.state;
+    const total = this.getTotalExpense();
     return (
       <Layout page="expense">
         <div className="expense-page">
           {loadingExpensesByDate ? (
-            <div className="loader-overlay">
-              <PacmanLoader />
-            </div>
-          ) : null}
-          <label className="date-picker">
-            <i className="icon">{calendarIcon}</i>
-            <DatePicker
-              selected={currentDate}
-              onChange={this.handleSelectDate}
-              dateFormat="dd/MM/yyyy"
-              todayButton="Go to Today"
-            />
-          </label>
-          <AddExpense date={currentDate} />
-          <svg
-            className="expense-svg-container"
-            width={width}
-            height={height}
-            viewBox={`0 0 ${width} ${height}`}
-          >
-            <RadialChart data={expensesByDate} width={width} />
-          </svg>
-          <ExpenseList />
+            <PacmanLoader />
+          ) : (
+            <>
+              <label className="date-picker">
+                <i className="icon">{calendarIcon}</i>
+                <DatePicker
+                  selected={currentDate}
+                  onChange={this.handleSelectDate}
+                  dateFormat="dd/MM/yyyy"
+                  todayButton="Go to Today"
+                />
+              </label>
+              <AddExpense date={currentDate} />
+              <svg
+                className="expense-svg-container"
+                width={width}
+                height={height}
+                viewBox={`0 0 ${width} ${height}`}
+              >
+                <Total total={total} size={20} />
+                <RadialChart data={expensesByDate} width={width} />
+              </svg>
+              <ExpenseList />
+            </>
+          )}
         </div>
       </Layout>
     );

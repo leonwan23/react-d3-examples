@@ -13,8 +13,17 @@ $font: Dekko;
 }
 
 .expense-dashboard-page {
+  position: relative;
   width: $page-width;
   margin: auto;
+
+  .total-svg-container {
+    @extend .svg-container;
+    position: absolute;
+    top: 30px;
+    right: -30px;
+    width: 150px;
+  }
 
   .add-expense-button {
     position: fixed;

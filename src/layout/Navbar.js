@@ -31,6 +31,14 @@ export default function Navbar({ page }) {
             Expense
           </Link>
         </li>
+        <li>
+          <Link
+            to={{ pathname: "/category" }}
+            className={page === "category" ? "active" : ""}
+          >
+            Categories
+          </Link>
+        </li>
         {authUser && authUser.role === authConstants.ROLES.SUPERUSER ? (
           <li>
             <Link

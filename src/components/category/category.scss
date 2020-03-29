@@ -1,0 +1,13 @@
+@import "../common/variables.scss";
+
+.category-page {
+    width: $page-width;
+    height: $page-height;
+    margin: auto;
+
+    .add-category-form{
+        margin: auto;
+        width: 300px;
+        text-align: center;
+    }
+}

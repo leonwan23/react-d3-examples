@@ -5,7 +5,7 @@ import moment from "moment";
 import "./expenseDashboard.scss";
 
 import Layout from "../../../layout/Layout";
-import Category from "../../../visualizations/Category";
+import Total from "../../../visualizations/Total";
 import Day from "../../../visualizations/Day";
 import Expenses from "../../../visualizations/Expenses";
 
@@ -94,67 +94,66 @@ class ExpenseDashboard extends React.Component {
   };
 
   render() {
-    const { categories, selectedDate, showExpenseForm } = this.state;
+    const { selectedDate, showExpenseForm } = this.state;
     const { expenses, loadingExpenses } = this.props;
 
     const currentMonthExpenses = expenses.filter(
       d => new Date(d.date).getMonth() === selectedDate.getMonth()
     );
+    const monthTotal = loadingExpenses
+      ? 0
+      : currentMonthExpenses.reduce((acc, curr) => {
+          return acc + curr.amount;
+        }, 0);
     return (
       <Layout page="home">
         <div className="expense-dashboard-page">
-          {!loadingExpenses ? (
-            ""
+          {loadingExpenses ? (
+            <PacmanLoader />
           ) : (
-            <div className="loader-overlay">
-              <PacmanLoader />
-            </div>
-          )}
-
-          {showExpenseForm ? (
-            <ExpenseForm
-              addExpense={this.addExpense}
-              closeForm={this.toggleExpenseForm}
-            />
-          ) : (
-            <div
-              className="add-expense-button"
-              onClick={this.toggleExpenseForm}
-            >
-              +
-            </div>
-          )}
-
-          <>
-            <MonthLabel
-              selectedDate={moment(selectedDate).format("MMM YYYY")}
-              selectMonth={this.selectMonth}
-            />
-            <svg
-              className="svg-container"
-              width={width}
-              height={height}
-              viewBox={`0 0 ${width} ${height}`}
-            >
-              {/* <Category
-            data={categories}
-            width={width}
-            height={height}
-          /> */}
-
-              <Day
-                expenses={currentMonthExpenses}
-                width={width}
-                selectedDate={selectedDate}
-                selectDateToView={this.selectDateToView}
+            <>
+              {showExpenseForm ? (
+                <ExpenseForm
+                  addExpense={this.addExpense}
+                  closeForm={this.toggleExpenseForm}
+                />
+              ) : (
+                <div
+                  className="add-expense-button"
+                  onClick={this.toggleExpenseForm}
+                >
+                  +
+                </div>
+              )}
+              <MonthLabel
+                selectedDate={moment(selectedDate).format("MMM YYYY")}
+                selectMonth={this.selectMonth}
               />
-              <Expenses
+              <svg
+                className="total-svg-container"
+              >
+                <Total total={monthTotal} size={30} />
+              </svg>
+              <svg
+                className="svg-container"
                 width={width}
-                data={currentMonthExpenses}
-                selectedDate={selectedDate}
-              />
-            </svg>
-          </>
+                height={height}
+                viewBox={`0 0 ${width} ${height}`}
+              >
+                <Day
+                  expenses={currentMonthExpenses}
+                  width={width}
+                  selectedDate={selectedDate}
+                  selectDateToView={this.selectDateToView}
+                />
+                <Expenses
+                  width={width}
+                  data={currentMonthExpenses}
+                  selectedDate={selectedDate}
+                />
+              </svg>
+            </>
+          )}
         </div>
       </Layout>
     );
