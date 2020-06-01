@@ -5,7 +5,9 @@ const initialState = {
   expensesByDate: [],
   expensesByDateErr: "",
   deletingExpense: false,
-  deleteExpenseErr: ""
+  deleteExpenseErr: "",
+  addingExpenseByDate: false,
+  addingExpenseByDateErr: ""
 };
 
 export default (state = initialState, action) => {
@@ -44,6 +46,22 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         deletingExpense: false,
         deleteExpenseErr: action.payload
+      });
+
+    case actionTypes.ADDING_EXPENSE_BY_DATE:
+      return Object.assign({}, state, {
+        addingExpenseByDate: true
+      });
+    case actionTypes.ADD_EXPENSE_BY_DATE_SUCCESS:
+      return Object.assign({}, state, {
+        addingExpenseByDate: false,
+        expensesByDate: [action.payload, ...state.expensesByDate],
+        addingExpenseByDateErr: ""
+      });
+    case actionTypes.ADD_EXPENSE_BY_DATE_FAILURE:
+      return Object.assign({}, state, {
+        addingExpenseByDate: false,
+        addingExpenseByDateErr: action.payload
       });
     default:
       return state;

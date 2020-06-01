@@ -24,7 +24,10 @@ export default function LoginForm({ toggleView, viewLogin, login }) {
     return <Redirect to="/" />;
   }
   return (
-    <div className={"login " + (viewLogin ? "" : "slide-up")}>
+    <form
+      className={"login " + (viewLogin ? "" : "slide-up")}
+      onSubmit={() => login(username, password)}
+    >
       <div className="center">
         {!loginErr || !viewLogin ? (
           ""
@@ -51,6 +54,6 @@ export default function LoginForm({ toggleView, viewLogin, login }) {
           {!loggingIn ? "Log in" : <Spinner />}
         </button>
       </div>
-    </div>
+    </form>
   );
 }

@@ -1,5 +1,6 @@
 import { request, success, failure } from "../../../utils/redux";
 import { expenseService } from "./expenseService";
+import { expenseDashboardService } from "../dashboard/expenseDashboardService";
 
 export const actionTypes = {
   LOADING_EXPENSES_BY_DATE: "LOADING_EXPENSES_BY_DATE",
@@ -8,7 +9,11 @@ export const actionTypes = {
 
   DELETING_EXPENSE: "DELETING_EXPENSE",
   DELETE_EXPENSE_SUCCESS: "DELETE_EXPENSE_SUCCESS",
-  DELETE_EXPENSE_FAILURE: "DELETE_EXPENSE_FAILURE"
+  DELETE_EXPENSE_FAILURE: "DELETE_EXPENSE_FAILURE",
+
+  ADDING_EXPENSE_BY_DATE: "ADDING_EXPENSE_BY_DATE",
+  ADD_EXPENSE_BY_DATE_SUCCESS: "ADD_EXPENSE_BY_DATE_SUCCESS",
+  ADD_EXPENSE_BY_DATE_FAILURE: "ADD_EXPENSE_BY_DATE_FAILURE"
 };
 
 const getExpensesByDate = (userId, date) => {
@@ -39,7 +44,26 @@ const deleteExpense = id => {
   };
 };
 
+const addExpense = expense => {
+  const { name, amount, userId, date } = expense;
+  return dispatch => {
+    dispatch(request(actionTypes.ADDING_EXPENSE_BY_DATE));
+    return expenseDashboardService
+      .addExpense({ name, amount, userId, date })
+      .then(
+        result => {
+          dispatch(success(actionTypes.ADD_EXPENSE_BY_DATE_SUCCESS, result.expense));
+        },
+        err => {
+          const { error } = err.data;
+          dispatch(failure(actionTypes.ADD_EXPENSE_BY_DATE_FAILURE, error));
+        }
+      );
+  };
+};
+
 export const expenseActions = {
   getExpensesByDate,
-  deleteExpense
+  deleteExpense,
+  addExpense
 };

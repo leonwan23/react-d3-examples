@@ -14,3 +14,15 @@ $page-width: 750px;
 $page-padding: 15px;
 $page-height: calc(100vh - #{$navbar-height} - #{$page-padding * 2});
 $overlay-color: rgba(0, 0, 0, 0.3);
+
+@keyframes slideFromTop {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

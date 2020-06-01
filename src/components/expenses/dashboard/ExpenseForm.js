@@ -6,13 +6,8 @@ import { useInput } from "../../../utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { checkValidExpenseForm } from "../../../utils/validation";
 import Spinner from "../../common/Spinner";
-
-const checkValidForm = (name, amount) => {
-  return (
-    !name || !amount || parseFloat(amount) <= 0 || isNaN(parseFloat(amount))
-  );
-};
 
 export default function ExpenseForm({ addExpense, closeForm }) {
   const { addingExpense } = useSelector(state => state.expenseDashboardReducer);
@@ -21,11 +16,11 @@ export default function ExpenseForm({ addExpense, closeForm }) {
     placeholder: "Item"
   });
   const [amount, amountInput] = useInput({
-    className: "expense-form-input",
+    className: "expense-form-input amount",
     placeholder: "Amount"
   });
   const [date, setDate] = useState(new Date());
-  const buttonDisabled = checkValidForm(name, amount) || addingExpense;
+  const buttonDisabled = checkValidExpenseForm(name, amount) || addingExpense;
   return (
     <div className="modal" id="expense-form">
       <div className="modal-content">
@@ -37,6 +32,7 @@ export default function ExpenseForm({ addExpense, closeForm }) {
         </div>
         <div className="modal-body">
           {nameInput}
+          <span className="dollar-sign">$</span>
           {amountInput}
           <DatePicker
             selected={date}
@@ -53,7 +49,7 @@ export default function ExpenseForm({ addExpense, closeForm }) {
             onClick={() => addExpense(name, amount, date)}
             disabled={buttonDisabled}
           >
-            {!addingExpense ? "Add" : <Spinner radius={15}/>}
+            {!addingExpense ? "Add" : <Spinner radius={15} />}
           </button>
         </div>
       </div>

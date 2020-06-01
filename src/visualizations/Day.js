@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 import moment from "moment";
 import chroma from "chroma-js";
-import {theme} from '../constants/theme'
+import { theme } from "../constants/theme";
 
 import "./day.scss";
 
@@ -13,12 +13,18 @@ const dayHeight = 73;
 let xScale = d3.scaleLinear().domain([0, 6]);
 let yScale = d3.scaleLinear();
 var amountScale = d3.scaleLog();
-let colorScale = chroma.scale([theme.THEME_GREEN, theme.THEME_YELLOW, theme.THEME_RED]);
+let colorScale = chroma.scale([
+  theme.THEME_GREEN,
+  theme.THEME_YELLOW,
+  theme.THEME_RED
+]);
 
 const daysLabels = moment.weekdaysShort();
 
 function formatDate(date) {
-  return new Date(moment(date).format("MM/DD/YYYY"));
+  return moment(date)
+    .local()
+    .toDate();
 }
 
 export default class Day extends Component {
@@ -80,10 +86,17 @@ export default class Day extends Component {
 
     this.backs.map(back => {
       const { x, y } = this.calculateDayPosition(back.date);
-      const match = Object.keys(this.totalByDay).find(day => {
-        return formatDate(day).getTime() === formatDate(back.date).getTime();
+      const match = Object.keys(this.totalByDay).filter(day => {
+        return formatDate(day).getDate() === formatDate(back.date).getDate();
       });
-      const dayTotal = match ? this.totalByDay[match] : 0;
+      let dayTotal;
+      if (match.length) {
+        dayTotal = match.reduce((acc, curr) => {
+          return acc + this.totalByDay[curr];
+        }, 0);
+      } else {
+        dayTotal = 0;
+      }
       return Object.assign(back, {
         fill: colorScale(amountScale(dayTotal)),
         x,

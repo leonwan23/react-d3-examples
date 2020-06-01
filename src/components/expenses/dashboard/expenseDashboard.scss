@@ -13,8 +13,17 @@ $font: Dekko;
 }
 
 .expense-dashboard-page {
+  position: relative;
   width: $page-width;
   margin: auto;
+
+  .total-svg-container {
+    @extend .svg-container;
+    position: absolute;
+    top: 30px;
+    right: -30px;
+    width: 150px;
+  }
 
   .add-expense-button {
     position: fixed;
@@ -155,6 +164,10 @@ $font: Dekko;
   &:focus {
     border-bottom: 2px solid black;
   }
+
+  &.amount {
+    padding-left: 20px;
+  }
 }
 
 .modal {
@@ -260,6 +273,7 @@ $font: Dekko;
 .modal-body {
   padding: 15px 16px;
   margin: 5px 0 10px;
+  position: relative;
 
   //overwrite react datepicker style
   .react-datepicker-wrapper,
@@ -294,6 +308,15 @@ $font: Dekko;
 
   .react-datepicker__triangle {
     left: 50% !important;
+  }
+
+  .dollar-sign {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - #{$input-width} / 2 + 5px);
+    opacity: 0.7;
+    font-size: 14px;
+    font-family: Dekko;
   }
 }
 

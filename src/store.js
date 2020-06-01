@@ -7,6 +7,7 @@ import authReducer from "./components/auth/authReducer";
 import expenseDashboardReducer from "./components/expenses/dashboard/expenseDashboardReducer";
 import expenseReducer from "./components/expenses/expense/expenseReducer";
 import userReducer from "./components/users/userReducer";
+import categoryReducer from "./components/category/categoryReducer";
 
 const persistConfig = {
   key: "root",
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   authReducer,
   expenseDashboardReducer,
   expenseReducer,
-  userReducer
+  userReducer,
+  categoryReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

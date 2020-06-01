@@ -1,6 +1,6 @@
 @import "./variables.scss";
 
-$pacman-color: #fcf340;
+$pacman-color: #2c82c9;
 $pacman-size: 96px;
 $balls-size: 16px;
 
@@ -13,7 +13,7 @@ $balls-size: 16px;
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 100%;
+  width: 100vw;
   overflow: visible;
   background: $overlay-color;
   z-index: 99;
