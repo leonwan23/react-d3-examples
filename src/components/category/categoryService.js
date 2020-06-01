@@ -3,7 +3,8 @@ import { httpConstants } from "../../constants/httpConstants";
 
 export const categoryService = {
   getCategories,
-  addCategory
+  addCategory,
+  deleteCategory
 };
 
 function getCategories(userId) {
@@ -26,6 +27,15 @@ function addCategory({ name, userId }) {
     url: `v1/categories`,
     method: httpConstants.POST,
     body: { name, userId, color }
+  };
+
+  return apiRequest(reqOptions);
+}
+
+function deleteCategory(id){
+  const reqOptions = {
+    url: `v1/category/${id}`,
+    method: httpConstants.DELETE
   };
 
   return apiRequest(reqOptions);

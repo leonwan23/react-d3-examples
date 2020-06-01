@@ -14,7 +14,7 @@ export default class Total extends Component {
       .select("#amount-total")
       .attr(
         "transform",
-        "translate(" + [defaultWidth / 2, defaultHeight / 2] + ")"
+        "translate(" + [defaultWidth / 2 - 5, defaultHeight / 2] + ")"
       );
     this.styleLabels();
     this.animateTotal();

@@ -19,57 +19,62 @@ let colorScale = chroma.scale([
 ]);
 var amountScale = d3.scaleLog();
 
-const data = [
-  {
-    name: "A",
-    amount: 0.08167
-  },
-  {
-    name: "B",
-    amount: 0.01492
-  },
-  {
-    name: "C",
-    amount: 0.02782
-  },
-  {
-    name: "D",
-    amount: 0.04253
-  },
-  {
-    name: "E",
-    amount: 0.12702
-  },
-  {
-    name: "F",
-    amount: 0.02288
-  },
-  {
-    name: "G",
-    amount: 0.02015
-  },
-  {
-    name: "H",
-    amount: 0.06094
-  }
-];
+// const data = [
+//   {
+//     name: "A",
+//     amount: 0
+//   },
+//   {
+//     name: "B",
+//     amount: 0
+//   },
+//   {
+//     name: "C",
+//     amount: 0
+//   },
+//   {
+//     name: "AA",
+//     amount: 0
+//   },
+//   {
+//     name: "BB",
+//     amount: 0
+//   },
+//   {
+//     name: "CC",
+//     amount: 0
+//   },
+//   {
+//     name: "AAA",
+//     amount: 0
+//   },
+//   {
+//     name: "BBB",
+//     amount: 0
+//   },
+//   {
+//     name: "CCC",
+//     amount: 0
+//   }
+// ];
 
 export default class RadialChart extends Component {
   componentDidMount() {
     const { width } = this.props;
     this.container = d3
       .select("#radial-chart-container")
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+      .attr("transform", "translate(" + [width / 2, height / 2] + ")");
     this.calculateData();
     this.drawChart();
   }
 
-  // componentDidUpdate() {
-  //   this.calculateData();
-  //   this.drawChart();
-  // }
+  componentDidUpdate() {
+    this.calculateData();
+    this.drawChart();
+  }
 
   calculateData = () => {
+    const {data} = this.props
     this.data = data.sort((a, b) => b.amount - a.amount);
 
     const amountExtent = d3.extent(this.data.map(d => d.amount));
@@ -89,6 +94,7 @@ export default class RadialChart extends Component {
   };
 
   drawChart = () => {
+    const t = d3.transition().duration(300);
     const arc = d3
       .arc() // imagine your doing a part of a donut plot
       .innerRadius(innerRadius)
@@ -105,52 +111,77 @@ export default class RadialChart extends Component {
       .padRadius(innerRadius);
 
     this.bars = this.container
-      .append("g")
-      .selectAll("path")
+      // .selectAll(".radial-bars")
       .data(this.data)
-      .enter()
       .append("path")
-      .attr("fill", d => colorScale(amountScale(d.amount)));
-    // .attr("d", arc);
-
-    this.labels = this.container
-      .append("g")
-      .selectAll("g")
-      .data(data)
-      .enter()
-      .append("g")
-      .attr("text-anchor", function(d) {
-        return (xScale(d.name) + xScale.bandwidth() / 2 + Math.PI) %
-          (2 * Math.PI) <
-          Math.PI
-          ? "end"
-          : "start";
-      })
-      .attr("transform", function(d) {
-        return (
-          "rotate(" +
-          (((xScale(d.name) + xScale.bandwidth() / 2) * 180) / Math.PI - 90) +
-          ")" +
-          "translate(" +
-          (yScale(d.amount) + 10) +
-          ",0)"
-        );
-      })
-      .append("text")
-      .text(function(d) {
-        return d.name;
-      })
-      .attr("transform", function(d) {
-        return (xScale(d.name) + xScale.bandwidth() / 2 + Math.PI) %
-          (2 * Math.PI) <
-          Math.PI
-          ? "rotate(180)"
-          : "rotate(0)";
-      })
-      .style("font-size", 0)
-      .attr("alignment-baseline", "middle");
+      .attr("class", "radial-bars")
 
     this.bars
+      // .exit()
+      .transition(t)
+      .attr("opacity", 0)
+      .remove();
+
+    //enter
+    let enter = this.bars
+      // .enter()
+      // .append("g")
+      .attr("fill", d => colorScale(amountScale(d.amount)));
+      // .data(this.data);
+      // .attr("class", "radial-bars");
+
+    //enter + update
+    this.bars = enter.merge(this.bars);
+
+    // enter
+      // .append("path")
+      // this.bars = this.container
+      // .append("g")
+      // .selectAll("path")
+      // .data(this.data)
+      // .enter()
+      // .attr("fill", d => colorScale(amountScale(d.amount)));
+    // .attr("d", arc);
+
+    // this.labels = this.container
+    //   .append("g")
+    //   .selectAll("g")
+    //   .data(data)
+    //   .enter()
+    //   .append("g")
+    //   .attr("text-anchor", function(d) {
+    //     return (xScale(d.name) + xScale.bandwidth() / 2 + Math.PI) %
+    //       (2 * Math.PI) <
+    //       Math.PI
+    //       ? "end"
+    //       : "start";
+    //   })
+    //   .attr("transform", function(d) {
+    //     return (
+    //       "rotate(" +
+    //       (((xScale(d.name) + xScale.bandwidth() / 2) * 180) / Math.PI - 90) +
+    //       ")" +
+    //       "translate(" +
+    //       (yScale(d.amount) + 10) +
+    //       ",0)"
+    //     );
+    //   })
+    //   .append("text")
+    //   .text(function(d) {
+    //     return d.name;
+    //   })
+    //   .attr("transform", function(d) {
+    //     return (xScale(d.name) + xScale.bandwidth() / 2 + Math.PI) %
+    //       (2 * Math.PI) <
+    //       Math.PI
+    //       ? "rotate(180)"
+    //       : "rotate(0)";
+    //   })
+    //   .style("font-size", 0)
+    //   .attr("alignment-baseline", "middle");
+
+    this.bars
+      .selectAll("path")
       .transition()
       .ease(d3.easeElastic)
       .duration(2000)
@@ -158,7 +189,6 @@ export default class RadialChart extends Component {
         return i * 50;
       })
       .attrTween("d", function(d, index) {
-        // console.log(d);
         var i = d3.interpolate(0, yScale(+d.amount));
         return function(t) {
           d.outerRadius = i(t);
@@ -166,12 +196,12 @@ export default class RadialChart extends Component {
         };
       });
 
-    this.labels
-      .transition()
-      .ease(d3.easeElastic)
-      .duration(2000)
-      .delay((d, i) => i * 150)
-      .style("font-size", "11px");
+    // this.labels
+    //   .transition()
+    //   .ease(d3.easeElastic)
+    //   .duration(2000)
+    //   .delay((d, i) => i * 150)
+    //   .style("font-size", "11px");
   };
 
   render() {

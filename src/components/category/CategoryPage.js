@@ -20,8 +20,8 @@ function AddCategory({ handleAdd }) {
 }
 
 class CategoryPage extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       categoryBeingAdded: null
     };
@@ -50,7 +50,12 @@ class CategoryPage extends Component {
               height={height}
               viewBox={`0 0 ${width} ${height}`}
             >
-              <Category data={categories} width={width} height={height} />
+              <Category
+                data={categories}
+                width={width}
+                height={height}
+                handleDelete={this.props.deleteCategory}
+              />
             </svg>
           )}
         </div>
@@ -76,12 +81,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCategories: userId => {
-      return dispatch(categoryActions.getCategories(userId));
-    },
-    addCategory: category => {
-      return dispatch(categoryActions.addCategory(category));
-    }
+    getCategories: userId => dispatch(categoryActions.getCategories(userId)),
+    addCategory: category => dispatch(categoryActions.addCategory(category)),
+    deleteCategory: id => dispatch(categoryActions.deleteCategory(id))
   };
 };
 

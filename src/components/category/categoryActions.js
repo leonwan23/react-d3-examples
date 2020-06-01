@@ -8,7 +8,11 @@ export const actionTypes = {
 
   ADDING_CATEGORY: "ADDING_CATEGORY",
   ADD_CATEGORY_SUCCESS: "ADD_CATEGORY_SUCCESS",
-  ADD_CATEGORY_FAILURE: "ADD_CATEGORY_FAILURE"
+  ADD_CATEGORY_FAILURE: "ADD_CATEGORY_FAILURE",
+
+  DELETING_CATEGORY: "DELETING_CATEGORY",
+  DELETE_CATEGORY: "DELETE_CATEGORY",
+  DELETE_CATEGORY_ERROR: "DELETE_CATEGORY_ERROR"
 };
 
 const getCategories = userId => {
@@ -30,7 +34,7 @@ const addCategory = category => {
     dispatch(request(actionTypes.ADDING_CATEGORY));
     try {
       const result = await categoryService.addCategory({ name, userId });
-      console.log(result)
+      console.log(result);
       dispatch(success(actionTypes.ADD_CATEGORY_SUCCESS, result.category));
     } catch (err) {
       const { error } = err.data;
@@ -39,7 +43,21 @@ const addCategory = category => {
   };
 };
 
+const deleteCategory = id => {
+  return async dispatch => {
+    dispatch(request(actionTypes.DELETING_CATEGORY));
+    try {
+      await categoryService.deleteCategory(id);
+      dispatch(success(actionTypes.DELETE_CATEGORY, id));
+    } catch (err) {
+      const { error } = err.data;
+      dispatch(failure(actionTypes.DELETE_CATEGORY_ERROR, error));
+    }
+  };
+};
+
 export const categoryActions = {
   getCategories,
-  addCategory
+  addCategory,
+  deleteCategory
 };

@@ -6,7 +6,10 @@ const initialState = {
   categoriesErr: "",
 
   addingCategory: false,
-  addCategoryErr: ""
+  addCategoryErr: "",
+
+  deletingCategory: false,
+  deleteCategoryErr: ""
 };
 
 export default (state = initialState, action) => {
@@ -41,6 +44,22 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         addingCategory: false,
         addCategoryErr: action.payload
+      });
+    case actionTypes.DELETING_CATEGORY:
+      return Object.assign({}, state, {
+        deletingCategory: true,
+        deleteCategoryErr: ""
+      });
+    case actionTypes.ADD_CATEGORY_SUCCESS:
+      return Object.assign({}, state, {
+        deletingCategory: false,
+        categories: state.categories.filter(cat => cat.id !== action.payload),
+        deleteCategoryErr: ""
+      });
+    case actionTypes.ADD_CATEGORY_FAILURE:
+      return Object.assign({}, state, {
+        deletingCategory: false,
+        deleteCategoryErr: action.payload
       });
     default:
       return state;
